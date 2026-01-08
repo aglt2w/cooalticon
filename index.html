@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IconHub - 简洁图标库</title>
-<!-- 引入外部资源 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<!-- 引入本地CSS文件 -->
-<link rel="stylesheet" href="/cooalticon/styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
@@ -18,7 +16,6 @@
     <div class="logo">IconHub</div>
     <nav class="nav-links">
       <a href="#">全部图标</a>
-      <a href="#">分类</a>
       <a href="#">收藏</a>
     </nav>
   </div>
@@ -44,17 +41,27 @@
 </section>
 
 <section class="search-section">
-    <!-- 搜索框容器，包含图标和输入框 -->
-    <div class="search-container">
-      <div class="search-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11 2C15.968 2 20 6.032 20 11C20 15.968 15.968 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2ZM11 18C14.8675 18 18 14.8675 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18ZM19.4853 18.0711L22.3137 20.8995L20.8995 22.3137L18.0711 19.4853L19.4853 18.0711Z"></path></svg>
+  <div class="search-container">
+    <div class="custom-select-wrapper" id="custom-select-wrapper">
+      <div class="custom-select-btn" id="custom-select-btn">
+        <span class="selected-text" id="selected-category">全部图标</span>
+        <i class="fa fa-chevron-down select-icon"></i>
       </div>
-      <input type="text" id="search-input" class="search-input" placeholder="搜索图标...">
+      <div class="custom-select-list" id="custom-select-list"></div>
     </div>
-  </section>
+    <input type="text" id="search-input" class="search-input" placeholder="搜索图标..." autocomplete="off">
+    <div class="search-icon-wrap">
+      <div class="search-icon" id="search-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M11 2C15.968 2 20 6.032 20 11C20 15.968 15.968 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2ZM11 18C14.8675 18 18 14.8675 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18ZM19.4853 18.0711L22.3137 20.8995L20.8995 22.3137L18.0711 19.4853L19.4853 18.0711Z" fill="#bcc1cc"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="icon-grid-section">
-  <div class="icon-grid" id="icon-grid"></div>
+<section class="icon-grid-section" id="icon-grid-section">
+  <div id="icon-categories-container"></div>
 </section>
 
 <footer>
@@ -62,7 +69,6 @@
   <p>简洁图标库，为设计师和开发者提供高质量图标资源</p>
 </footer>
 
-<!-- 引入本地JS文件 -->
-<script src="/cooalticon/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
