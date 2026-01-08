@@ -1,231 +1,260 @@
-// ====================== 图标数据（只需要修改这里）======================
+// 图标数据源
 const iconData = [
-    {
-      name: "首页",
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/></svg>`
-    },
-    {
-      name: "用户",
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>`
-    },
-    {
-      name: "搜索",
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-      name: "搜索",
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-     },
-     {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-        name: "搜索",
-        svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>`
-    },
-    {
-      name: "购物车",
-      svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.895 33.289" fill="#FF8022"><path d="M0,1.5C0,2.188,0.468,2.788,1.136,2.955L4.493,3.794L10.256,25.05C10.433,25.704,11.026,26.158,11.693,26.158L28.858,26.158C29.686,26.158,30.357,25.486,30.357,24.658C30.357,23.83,29.686,23.158,28.858,23.158L12.841,23.158L7.148,2.16C6.999,1.635,6.587,1.229,6.057,1.097L1.849,0.044C1.73,0.015,1.608,0,1.485,0C0.657,0,0,0.671,0,1.5Z" fill-rule="evenodd"/><path d="M11.184,20.026L31.301,20.026L35.394,7.394L6.973,7.394" fill-rule="evenodd"/><path d="M6.973,5.894L35.394,5.894C36.223,5.894,36.894,6.566,36.894,7.394C36.894,7.551,36.87,7.708,36.821,7.857L32.728,20.488C32.527,21.107,31.951,21.526,31.301,21.526L11.184,21.526C10.356,21.526,9.684,20.854,9.684,20.026C9.684,19.198,10.356,18.526,11.184,18.526L30.21,18.526L33.332,8.894L6.973,8.894C6.145,8.894,5.474,8.223,5.474,7.394C5.474,6.566,6.145,5.894,6.973,5.894Z" fill-rule="evenodd"/><path d="M14.342,31.289Q14.342,31.387,14.332,31.485Q14.323,31.583,14.303,31.679Q14.284,31.776,14.256,31.87Q14.227,31.964,14.19,32.055Q14.152,32.145,14.106,32.232Q14.059,32.319,14.005,32.4Q13.95,32.482,13.888,32.558Q13.825,32.634,13.756,32.703Q13.687,32.773,13.611,32.835Q13.535,32.898,13.453,32.952Q13.371,33.007,13.285,33.053Q13.198,33.099,13.107,33.137Q13.016,33.175,12.922,33.203Q12.828,33.232,12.732,33.251Q12.636,33.27,12.538,33.28Q12.44,33.289,12.342,33.289Q12.244,33.289,12.146,33.28Q12.048,33.27,11.952,33.251Q11.855,33.232,11.761,33.203Q11.667,33.175,11.576,33.137Q11.486,33.099,11.399,33.053Q11.312,33.007,11.231,32.952Q11.149,32.898,11.073,32.835Q10.997,32.773,10.928,32.703Q10.858,32.634,10.796,32.558Q10.733,32.482,10.679,32.4Q10.624,32.319,10.578,32.232Q10.532,32.145,10.494,32.055Q10.456,31.964,10.428,31.87Q10.4,31.776,10.38,31.679Q10.361,31.583,10.351,31.485Q10.342,31.387,10.342,31.289Q10.342,31.191,10.351,31.093Q10.361,30.995,10.38,30.899Q10.4,30.803,10.428,30.709Q10.456,30.615,10.494,30.524Q10.532,30.433,10.578,30.346Q10.624,30.26,10.679,30.178Q10.733,30.096,10.796,30.02Q10.858,29.944,10.928,29.875Q10.997,29.805,11.073,29.743Q11.149,29.681,11.231,29.626Q11.312,29.572,11.399,29.525Q11.486,29.479,11.576,29.441Q11.667,29.404,11.761,29.375Q11.855,29.347,11.952,29.328Q12.048,29.308,12.146,29.299Q12.244,29.289,12.342,29.289Q12.44,29.289,12.538,29.299Q12.636,29.308,12.732,29.328Q12.828,29.347,12.922,29.375Q13.016,29.404,13.107,29.441Q13.198,29.479,13.285,29.525Q13.371,29.572,13.453,29.626Q13.535,29.681,13.611,29.743Q13.687,29.805,13.756,29.875Q13.825,29.944,13.888,30.02Q13.95,30.096,14.005,30.178Q14.059,30.26,14.106,30.346Q14.152,30.433,14.19,30.524Q14.227,30.615,14.256,30.709Q14.284,30.803,14.303,30.899Q14.323,30.995,14.332,31.093Q14.342,31.191,14.342,31.289Z" fill-rule="evenodd"/><path d="M31.184,31.289Q31.184,31.387,31.174,31.485Q31.165,31.583,31.145,31.679Q31.126,31.776,31.098,31.87Q31.069,31.964,31.032,32.055Q30.994,32.145,30.948,32.232Q30.901,32.319,30.847,32.4Q30.792,32.482,30.73,32.558Q30.668,32.634,30.598,32.703Q30.529,32.773,30.453,32.835Q30.377,32.898,30.295,32.952Q30.213,33.007,30.127,33.053Q30.04,33.099,29.949,33.137Q29.859,33.175,29.764,33.203Q29.67,33.232,29.574,33.251Q29.478,33.27,29.38,33.28Q29.282,33.289,29.184,33.289Q29.086,33.289,28.988,33.28Q28.89,33.27,28.794,33.251Q28.697,33.232,28.603,33.203Q28.509,33.175,28.419,33.137Q28.328,33.099,28.241,33.053Q28.154,33.007,28.073,32.952Q27.991,32.898,27.915,32.835Q27.839,32.773,27.77,32.703Q27.7,32.634,27.638,32.558Q27.576,32.482,27.521,32.4Q27.466,32.319,27.42,32.232Q27.374,32.145,27.336,32.055Q27.299,31.964,27.27,31.87Q27.242,31.776,27.223,31.679Q27.204,31.583,27.194,31.485Q27.184,31.387,27.184,31.289Q27.184,31.191,27.194,31.093Q27.204,30.995,27.223,30.899Q27.242,30.803,27.27,30.709Q27.299,30.615,27.336,30.524Q27.374,30.433,27.42,30.346Q27.466,30.26,27.521,30.178Q27.576,30.096,27.638,30.02Q27.7,29.944,27.77,29.875Q27.839,29.805,27.915,29.743Q27.991,29.681,28.073,29.626Q28.154,29.572,28.241,29.525Q28.328,29.479,28.419,29.441Q28.509,29.404,28.603,29.375Q28.697,29.347,28.794,29.328Q28.89,29.308,28.988,29.299Q29.086,29.289,29.184,29.289Q29.282,29.289,29.38,29.299Q29.478,29.308,29.574,29.328Q29.67,29.347,29.764,29.375Q29.859,29.404,29.949,29.441Q30.04,29.479,30.127,29.525Q30.213,29.572,30.295,29.626Q30.377,29.681,30.453,29.743Q30.529,29.805,30.598,29.875Q30.668,29.944,30.73,30.02Q30.792,30.096,30.847,30.178Q30.901,30.26,30.948,30.346Q30.994,30.433,31.032,30.524Q31.069,30.615,31.098,30.709Q31.126,30.803,31.145,30.899Q31.165,30.995,31.174,31.093Q31.184,31.191,31.184,31.289Z" fill-rule="evenodd"/></svg>`
+  { name: "首页", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>', category: "基础图标" },
+  { name: "设置", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c0.04-0.3 0.06-0.61 0.06-0.94 0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14 0.23-0.41 0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39 0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4 2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24 0-0.43 0.17-0.47 0.41L9.25 5.35C8.66 5.59 8.12 5.92 7.63 6.29L5.24 5.33c-0.22-0.08-0.47 0-0.59 0.22L2.74 8.87C2.62 9.08 2.66 9.34 2.86 9.48l2.03 1.58C4.84 11.36 4.8 11.69 4.8 12s0.02 0.64 0.07 0.94l-2.03 1.58c-0.18 0.14-0.23 0.41-0.12 0.61l1.92 3.32c0.12 0.22 0.37 0.29 0.59 0.22l2.39-0.96c0.5 0.38 1.03 0.7 1.62 0.94l0.36 2.54c0.05 0.24 0.24 0.41 0.48 0.41h3.84c0.24 0 0.44-0.17 0.47-0.41l0.36-2.54c0.59-0.24 1.13-0.56 1.62-0.94l2.39 0.96c0.22 0.08 0.47 0 0.59-0.22l1.92-3.32c0.12-0.22 0.07-0.47-0.12-0.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>', category: "功能图标" },
+  { name: "搜索", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-0.79l-0.28-0.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-0.59 4.23-1.57l0.27 0.28v0.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>', category: "基础图标" },
+  { name: "收藏", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>', category: "操作图标" },
+  { name: "下载", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>', category: "操作图标" },
+  { name: "返回", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>', category: "导航图标" },
+  { name: "菜单", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>', category: "导航图标" },
+  { name: "删除", svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>', category: "功能图标" }
+];
+
+// DOM元素获取
+const selectWrapper = document.getElementById('custom-select-wrapper');
+const selectBtn = document.getElementById('custom-select-btn');
+const selectedText = document.getElementById('selected-category');
+const selectList = document.getElementById('custom-select-list');
+const searchInput = document.getElementById('search-input');
+const searchIcon = document.getElementById('search-icon');
+const iconContainer = document.getElementById('icon-categories-container');
+
+// 分类列表
+const allCategories = ['全部图标', ...new Set(iconData.map(item => item.category))];
+
+// 替换后的SVG图标（20px尺寸）
+const downloadSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path></svg>';
+const copySvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"></path></svg>';
+
+// 页面初始化
+(function init() {
+  renderSelectOptions();
+  renderIcons(iconData);
+  bindEvents();
+})();
+
+// 事件绑定
+function bindEvents() {
+  // 下拉框展开/收起
+  selectBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    selectWrapper.classList.toggle('open');
+  });
+
+  // 点击页面其他区域关闭下拉框
+  document.addEventListener('click', function() {
+    selectWrapper.classList.remove('open');
+  });
+
+  // 搜索框输入事件
+  searchInput.addEventListener('input', function() {
+    const keyword = this.value.toLowerCase().trim();
+    const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+    renderIcons(filtered);
+    resetSelect();
+
+    if (this.value.trim() === '') {
+      this.setAttribute('placeholder', '搜索图标...');
+    } else {
+      this.removeAttribute('placeholder');
     }
-    
-  ];
+  });
+
+  // 搜索图标点击事件
+  searchIcon.addEventListener('click', function() {
+    searchInput.focus();
+    const keyword = searchInput.value.toLowerCase().trim();
+    const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+    renderIcons(filtered);
+    resetSelect();
+  });
+}
+
+// 渲染下拉选项
+function renderSelectOptions() {
+  selectList.innerHTML = '';
   
-  // ====================== 核心功能代码（无需修改）======================
-  // 渲染图标网格
-  function renderIcons(icons) {
-    const grid = document.getElementById('icon-grid');
-    grid.innerHTML = '';
+  allCategories.forEach(cat => {
+    const opt = document.createElement('div');
+    opt.className = 'select-option ' + (cat === '全部图标' ? 'active' : '');
+    opt.dataset.cat = cat;
+    opt.textContent = cat;
     
-    icons.forEach(icon => {
-      const card = document.createElement('div');
-      card.className = 'icon-card';
-      
-      card.innerHTML = `
-        <div class="icon-svg">${icon.svg}</div>
-      <span class="icon-name">${icon.name}</span>
-      <div class="icon-actions">
-        <button class="icon-btn download-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-            <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"></path>
-          </svg>
-        </button>
-        <button class="icon-btn copy-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-            <path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"></path>
-          </svg>
-        </button>
-      </div>
-    `;
-      
+    // 选项点击事件
+    opt.addEventListener('click', function() {
+      document.querySelectorAll('.select-option').forEach(o => o.classList.remove('active'));
+      this.classList.add('active');
+      selectedText.textContent = cat;
+      selectWrapper.classList.remove('open');
+      filterByCategory(cat);
+    });
+    
+    selectList.appendChild(opt);
+  });
+}
+
+// 按分类筛选图标
+function filterByCategory(cat) {
+  const filtered = cat === '全部图标' ? iconData : iconData.filter(icon => icon.category === cat);
+  renderIcons(filtered);
+}
+
+// 渲染图标列表
+function renderIcons(data) {
+  const grouped = {};
+  data.forEach(icon => {
+    if (!grouped[icon.category]) grouped[icon.category] = [];
+    grouped[icon.category].push(icon);
+  });
+
+  iconContainer.innerHTML = '';
+  Object.keys(grouped).forEach(cat => {
+    const title = document.createElement('h2');
+    title.className = 'category-title';
+    title.textContent = cat;
+
+    const grid = document.createElement('div');
+    grid.className = 'icon-grid';
+
+    grouped[cat].forEach(icon => {
+      const card = createIconCard(icon);
       grid.appendChild(card);
     });
-    
-    // 绑定按钮事件
-    bindButtonEvents();
+
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(title);
+    wrapper.appendChild(grid);
+    iconContainer.appendChild(wrapper);
+  });
+
+  if (Object.keys(grouped).length === 0) {
+    iconContainer.innerHTML = '<div class="empty-state">暂无匹配图标</div>';
   }
-  
-  // 绑定按钮点击事件
-  function bindButtonEvents() {
-    // 下载按钮
-    document.querySelectorAll('.download-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const name = this.dataset.name;
-        const svg = decodeURIComponent(this.dataset.svg);
-        downloadIcon(name, svg);
-      });
-    });
-    
-    // 复制按钮
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const name = this.dataset.name;
-        const svg = decodeURIComponent(this.dataset.svg);
-        copyIcon(name, svg);
-      });
-    });
-  }
-  
-  // 搜索功能
-  function setupSearch() {
-    const input = document.getElementById('search-input');
-    input.addEventListener('input', function() {
-      const keyword = this.value.trim().toLowerCase();
-      const filtered = iconData.filter(icon => 
-        icon.name.toLowerCase().includes(keyword)
-      );
-      renderIcons(filtered);
-    });
-  }
-  
-  // 下载图标
-  function downloadIcon(name, svg) {
+}
+
+// 创建图标卡片
+function createIconCard(icon) {
+  const card = document.createElement('div');
+  card.className = 'icon-card';
+  // 按钮使用20px的SVG图标，添加data属性存储图标信息
+  card.innerHTML = `
+    <div class="icon-svg">${icon.svg}</div>
+    <div class="icon-name">${icon.name}</div>
+    <div class="icon-actions">
+      <button class="icon-btn download-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+        ${downloadSvg}
+      </button>
+      <button class="icon-btn copy-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+        ${copySvg}
+      </button>
+    </div>
+  `;
+
+  // 下载按钮事件
+  card.querySelector('.download-btn').addEventListener('click', function() {
+    const name = this.dataset.name;
+    const svg = decodeURIComponent(this.dataset.svg);
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `${name}.svg`;
-    document.body.appendChild(a);
     a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-  
-  // 复制图标（修改为玻璃拟态样式，使用主题色#F5B32C）
-function copyIcon(name, svg) {
-    // 先尝试复制
-    navigator.clipboard.writeText(svg).then(() => {
-      // 创建自定义提示元素（玻璃拟态样式）
-      const tip = document.createElement('div');
-      tip.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: #333;
-        padding: 10px 20px;
-        border-radius: 12px;
-        font-size: 14px;
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        border: 1px solid rgba(245, 179, 44, 0.2);
-        box-shadow: 0 4px 16px rgba(245, 179, 44, 0.15);
-        transform: translateX(-50%) translateY(-10px);
-      `;
-      tip.innerHTML = ` <span style="color: #F5B32C; font-weight: 600;">${name}</span> 图标SVG代码已复制！`;
-      document.body.appendChild(tip);
-      
-      // 显示提示后自动消失
-      setTimeout(() => {
-        tip.style.opacity = '1';
-        tip.style.transform = 'translateX(-50%) translateY(0)';
-      }, 10);
-      setTimeout(() => {
-        tip.style.opacity = '0';
-        tip.style.transform = 'translateX(-50%) translateY(-10px)';
-        setTimeout(() => document.body.removeChild(tip), 300);
-      }, 2000);
-  
-    }).catch(err => {
-      console.error('复制失败:', err);
-      // 失败提示也使用统一的玻璃拟态样式
-      const tip = document.createElement('div');
-      tip.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: #333;
-        padding: 10px 20px;
-        border-radius: 12px;
-        font-size: 14px;
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        border: 1px solid rgba(220, 53, 69, 0.2);
-        box-shadow: 0 4px 16px rgba(220, 53, 69, 0.1);
-        transform: translateX(-50%) translateY(-10px);
-      `;
-      tip.innerHTML = `❌ <span style="color: #dc3545; font-weight: 600;">${name}</span> 复制失败，请手动复制！`;
-      document.body.appendChild(tip);
-      
-      setTimeout(() => {
-        tip.style.opacity = '1';
-        tip.style.transform = 'translateX(-50%) translateY(0)';
-      }, 10);
-      setTimeout(() => {
-        tip.style.opacity = '0';
-        tip.style.transform = 'translateX(-50%) translateY(-10px)';
-        setTimeout(() => document.body.removeChild(tip), 300);
-      }, 2000);
-    });
-  }
-  
-  // 初始化
-  window.addEventListener('DOMContentLoaded', function() {
-    renderIcons(iconData);
-    setupSearch();
+    URL.revokeObjectURL(a.href);
   });
+
+  // 复制按钮事件（玻璃拟态弹窗）
+  card.querySelector('.copy-btn').addEventListener('click', function() {
+    const name = this.dataset.name;
+    const svg = decodeURIComponent(this.dataset.svg);
+    copyIcon(name, svg);
+  });
+
+  return card;
+}
+
+// 复制图标（玻璃拟态弹窗）
+function copyIcon(name, svg) {
+  // 先尝试复制
+  navigator.clipboard.writeText(svg).then(() => {
+    // 创建自定义提示元素
+    const tip = document.createElement('div');
+    tip.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      border: 1px solid rgba(245, 179, 44, 0.2);
+      box-shadow: 0 4px 16px rgba(245, 179, 44, 0.15);
+      transform: translateX(-50%) translateY(-10px);
+    `;
+    tip.innerHTML = ` <span style="color: #F5B32C; font-weight: 600;">${name}</span> 图标SVG代码已复制！`;
+    document.body.appendChild(tip);
+    
+    // 显示提示后自动消失
+    setTimeout(() => {
+      tip.style.opacity = '1';
+      tip.style.transform = 'translateX(-50%) translateY(0)';
+    }, 10);
+    setTimeout(() => {
+      tip.style.opacity = '0';
+      tip.style.transform = 'translateX(-50%) translateY(-10px)';
+      setTimeout(() => document.body.removeChild(tip), 300);
+    }, 2000);
+
+  }).catch(err => {
+    console.error('复制失败:', err);
+    // 失败提示
+    const tip = document.createElement('div');
+    tip.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      border: 1px solid rgba(220, 53, 69, 0.2);
+      box-shadow: 0 4px 16px rgba(220, 53, 69, 0.1);
+      transform: translateX(-50%) translateY(-10px);
+    `;
+    tip.innerHTML = `❌ <span style="color: #dc3545; font-weight: 600;">${name}</span> 复制失败，请手动复制！`;
+    document.body.appendChild(tip);
+    
+    setTimeout(() => {
+      tip.style.opacity = '1';
+      tip.style.transform = 'translateX(-50%) translateY(0)';
+    }, 10);
+    setTimeout(() => {
+      tip.style.opacity = '0';
+      tip.style.transform = 'translateX(-50%) translateY(-10px)';
+      setTimeout(() => document.body.removeChild(tip), 300);
+    }, 2000);
+  });
+}
+
+// 重置下拉框为默认状态
+function resetSelect() {
+  selectedText.textContent = '全部图标';
+  document.querySelectorAll('.select-option').forEach(o => {
+    o.classList.remove('active');
+    if (o.dataset.cat === '全部图标') o.classList.add('active');
+  });
+}
