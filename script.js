@@ -30,16 +30,20 @@ const iconData = [
       
       card.innerHTML = `
         <div class="icon-svg">${icon.svg}</div>
-        <span class="icon-name">${icon.name}</span>
-        <div class="icon-actions">
-          <button class="icon-btn download-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
-            <i class="fa fa-download"></i>
-          </button>
-          <button class="icon-btn copy-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
-            <i class="fa fa-copy"></i>
-          </button>
-        </div>
-      `;
+      <span class="icon-name">${icon.name}</span>
+      <div class="icon-actions">
+        <button class="icon-btn download-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z"></path>
+          </svg>
+        </button>
+        <button class="icon-btn copy-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"></path>
+          </svg>
+        </button>
+      </div>
+    `;
       
       grid.appendChild(card);
     });
@@ -95,12 +99,62 @@ const iconData = [
   }
   
   // 复制图标
-  function copyIcon(name, svg) {
+  // 复制图标（无浏览器弹窗，自定义页面提示）
+function copyIcon(name, svg) {
+    // 先尝试复制
     navigator.clipboard.writeText(svg).then(() => {
-      alert(`✅ ${name} 图标SVG代码已复制到剪贴板！`);
+      // 创建自定义提示元素（不触发浏览器弹窗）
+      const tip = document.createElement('div');
+      tip.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(40, 167, 69, 0.9);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      tip.textContent = `✅ ${name} 图标SVG代码已复制！`;
+      document.body.appendChild(tip);
+      
+      // 显示提示后自动消失
+      setTimeout(() => tip.style.opacity = '1', 10);
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(tip), 300);
+      }, 2000);
+  
     }).catch(err => {
       console.error('复制失败:', err);
-      alert(`❌ 复制失败，请手动复制SVG代码！`);
+      // 失败也用自定义提示
+      const tip = document.createElement('div');
+      tip.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(220, 53, 69, 0.9);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      tip.textContent = `❌ ${name} 复制失败，请手动复制！`;
+      document.body.appendChild(tip);
+      
+      setTimeout(() => tip.style.opacity = '1', 10);
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(tip), 300);
+      }, 2000);
     });
   }
   
