@@ -1,0 +1,313 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    background-color: #fff;
+    min-height: 1024px;
+  }
+  
+  /* 头部样式 - 仅保留导航栏，介绍区合并到hero */
+  header {
+    background-color: #f3f4f6;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    color: #F5B32C; /* logo颜色改为#F5B32C */
+    font-family: 'Pacifico', cursive;
+  }
+  
+  .nav-links {
+    display: none;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-links {
+      display: flex;
+    }
+  }
+  
+  .nav-links a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .nav-links a:hover {
+    color: #F5B32C; /* 导航hover色同步改为主题色 */
+  }
+  
+  /* 英雄区样式 - 核心修改：加高灰色色块 + 调整内边距 */
+  .hero {
+    background-color: #f3f4f6; /* 灰色底色 */
+    /* 顶部内边距减少Npx → 元素上移Npx；底部内边距增加Npx → 色块总高度不变 */
+    padding: calc(6rem + 60px - 60px) 2rem calc(4rem + 60px); 
+    text-align: center;
+    position: relative; /* 用于定位参考 */
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem; /* 放大标题 */
+    color: #111827;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem; /* 放大描述文字 */
+    color: #64748b;
+    max-width: 800px;
+    margin: 0 auto 2rem; /* 居中+调整间距 */
+    line-height: 1.6;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem; /* 加大特性间距 */
+    flex-wrap: wrap;
+    margin-bottom: 0; /* 移除底部间距，让特性栏贴近灰色块底部 */
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #374151;
+    font-size: 1.1rem; /* 放大特性文字 */
+  }
+  
+  .feature-item i {
+    color: #10b981;
+    font-size: 1.5rem; /* 放大特性图标 */
+  }
+  
+  /* 搜索区样式 - 核心修复：图标显示 + 颜色切换 */
+  .search-section {
+    max-width: 800px; /* 加宽搜索框 */
+    margin: -2rem auto 4rem; /* 负margin向上移动，让搜索框中线对齐hero底边线 */
+    padding: 0 2rem;
+    position: relative;
+    z-index: 5; /* 确保搜索框在最上层 */
+  }
+  
+  /* 搜索容器 - 包含图标和输入框 */
+  .search-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* 搜索图标样式 - 核心修复：确保始终显示 */
+  .search-icon {
+    position: absolute;
+    left: 24px; /* 图标左侧间距24px */
+    top: 50%;   /* 垂直居中 */
+    transform: translateY(-50%); /* 精准垂直居中 */
+    width: 24px; /* 图标大小24px */
+    height: 24px;
+    color: #bcc1cc; /* 图标默认颜色 */
+    transition: color 0.2s ease; /* 颜色过渡动画 */
+    z-index: 1; /* 确保图标在输入框上层 */
+    pointer-events: none; /* 防止图标遮挡输入框点击 */
+  }
+  
+  .search-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block; /* 防止SVG产生额外空白 */
+  }
+  
+  /* 搜索框样式 - 核心调整：内边距、圆角、交互 */
+  .search-input {
+    width: 100%;
+    padding: 1.2rem 2rem 1.2rem 72px; /* 左侧内边距72px = 24+24+24 */
+    border: 1px solid #d1d5db;
+    border-radius: 16px; /* 圆角改为16px */
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background-color: #fff; /* 确保输入框背景为白色 */
+    position: relative;
+    z-index: 0;
+  }
+
+  /* 新增：搜索框占位符文字样式（改灰色） */
+.search-input::placeholder {
+    color: #bcc1cc; /* 浅灰色，可根据需要调整色值 */
+    opacity: 1; /* 确保颜色不透明（部分浏览器默认占位符半透明） */
+  }
+  
+  /* 兼容webkit内核浏览器（Chrome/Safari） */
+  .search-input::-webkit-input-placeholder {
+    color: #bcc1cc;
+    opacity: 1;
+  }
+  
+  /* 兼容moz内核浏览器（Firefox） */
+  .search-input::-moz-placeholder {
+    color: #bcc1cc;
+    opacity: 1;
+  }
+
+  /* 兼容IE/Edge */
+.search-input:-ms-input-placeholder {
+    color: #bcc1cc;
+    opacity: 1;
+  }
+  
+  /* 搜索框聚焦样式 */
+  .search-input:focus {
+    border-color: #F5B32C;
+    box-shadow: 0 0 0 4px rgba(245, 179, 44, 0.1), 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  
+  /* 修复：搜索框激活时图标变色（改用容器选择器，更稳定） */
+  .search-container:focus-within .search-icon {
+    color: #F5B32C;
+  }
+  
+  /* 图标网格样式 - 核心调整：确保卡片是正方形 */
+  .icon-grid-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+  
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 120px);
+    gap: 2rem;
+    justify-content: center;
+  }
+  
+  .icon-card {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .icon-card:hover {
+    border-color: #F5B32C;
+  }
+  
+  /* 图标容器 - 强制24×24大小 + 精准上移20px */
+  .icon-svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -20px;
+  }
+  
+  .icon-svg svg {
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain;
+  }
+  
+  /* 图标名称：悬浮时下滑至消失 */
+  .icon-name {
+    font-size: 0.875rem;
+    color: #374151;
+    position: absolute;
+    bottom: 12px;
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+  
+  .icon-card:hover .icon-name {
+    bottom: -20px;
+    opacity: 0;
+  }
+  
+  /* 悬浮按钮：默认隐藏在下方，悬浮时上滑显示 */
+  .icon-actions {
+    position: absolute;
+    bottom: -20px;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .icon-card:hover .icon-actions {
+    bottom: 12px;
+    opacity: 1;
+  }
+  
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .download-btn {
+    background-color: #F5B32C;
+    color: #000000;
+  }
+  
+  .download-btn:hover {
+    background-color: #e0a21a;
+    color: #000000;
+  }
+  
+  .copy-btn {
+    background-color: #e5e7eb;
+    color: #374151;
+  }
+  
+  .copy-btn:hover {
+    background-color: #d1d5db;
+    color: #374151;
+  }
+  
+  .icon-btn i {
+    font-size: 12px;
+  }
+  
+  /* 页脚样式 */
+  footer {
+    background-color: #f9fafb;
+    padding: 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
