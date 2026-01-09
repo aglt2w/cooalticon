@@ -3,10 +3,8 @@
 
 Loom Icon 是一个专注于服装的矢量图标资源站，提供高质量、像素完美的图标素材，所有图标均可免费用于个人或商业项目。
 
-我为你写好了一份清晰易懂的 `README.md` 文件，你可以直接复制到「icon站0109」文件夹里，包含完整的运行说明、日常操作指南和常见问题，适配你的Mac环境和使用场景：
-
 ```markdown
-# 图标库运行说明（icon站0109）
+# 图标库运行说明
 本图标库支持「纯文件操作新增图标」，仅需少量配置即可运行，全程无需修改JS代码。
 
 ## 一、环境准备（仅首次配置）
@@ -25,10 +23,10 @@ python3 --version
 ### 步骤1：打开终端并进入文件夹
 1. 按下 `Command + 空格` → 输入 `Terminal` 打开终端；
 2. 在终端输入 `cd `（注意：cd 后**必须加一个空格**）；
-3. 打开访达 → 拖拽桌面的「icon站0109」文件夹到终端窗口 → 回车进入文件夹：
+3. 打开访达 → 拖拽你的「icon站文件」文件夹到终端窗口 → 回车进入文件夹：
    ```bash
    # 示例路径（替换成你的用户名）
-   cd /Users/你的用户名/Desktop/icon站0109
+   cd /Users/你的用户名/Desktop/icon站
    ```
 
 ### 步骤2：运行Python脚本生成图标清单
@@ -39,7 +37,7 @@ python3 generate-icon-list.py
 ✅ 成功提示：终端显示 `✅ 图标清单生成完成：icon-list.json`，文件夹内会新增 `icon-list.json` 文件。
 
 ### 步骤3：本地预览图标
-1. 用VS Code打开「icon站0109」文件夹；
+1. 用VS Code打开「icon站」文件夹；
 2. 右键点击 `index.html` → 选择「Open with Live Server」；
 3. 浏览器自动打开 `http://127.0.0.1:5500`，即可查看所有图标。
 
@@ -53,11 +51,10 @@ python3 generate-icon-list.py
 1. 打开 `generate-icon-list.py` 文件，找到 `CATEGORY_MAP` 配置：
    ```python
    CATEGORY_MAP = {
-       "accessories": "配饰部件",  # 修改冒号后的文字即可
-       "clothing": "服装品类",
-       "fabric": "面料纹理",
-       "tools": "制衣工具",
-       "functions": "功能标识"    # 抗静电/可机洗的分类名
+       "function": "功能标识",  # 修改冒号后的文字即可
+       "category": "服装品类",
+       "basic": "基础图标",
+       "logo": "LOGO",
    }
    ```
 2. 保存文件后，重新运行Python脚本 → 刷新页面生效。
@@ -84,12 +81,6 @@ python3 generate-icon-list.py
 - 报错 `command not found: python3`：重新安装Python并勾选「Add Python to PATH」。
 ```
 
-### 使用方法
-1. 在「icon站0109」文件夹里新建一个名为 `README.md` 的文件；
-2. 把上面的内容完整复制进去并保存；
-3. 后续不管是自己操作，还是给其他人看，打开这个文件就能看懂所有步骤。
-
-这份说明覆盖了所有核心操作：首次运行、新增图标、改分类名、新增分类，还有常见问题排查，完全适配你的使用场景，不用再记零散的命令和步骤～
 ## 🤝 贡献指南
 欢迎提交新的服装相关图标，一起丰富图标库！
 1. Fork 本仓库
