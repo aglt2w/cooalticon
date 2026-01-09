@@ -1,13 +1,11 @@
 # LOOMICON
-图标网址 https://aglt2w.github.io/loomicon/
-# LOOMICON
 > 专为设计师与开发者打造的**免费商用服装图标库**
 
 Loom Icon 是一个专注于服装的矢量图标资源站，提供高质量、像素完美的图标素材，所有图标均可免费用于个人或商业项目。
 
 ## 🚀 快速使用
 ### 方式1：直接下载
-1. 访问 [LOOMICON 官网](https://aglt2w.github.io/loomicon/)（替换为你的实际域名）
+1. 访问 [LOOMICON 官网](https://aglt2w.github.io/loomicon/)
 2. 搜索或浏览分类找到目标图标
 3. 点击图标下方 **下载按钮**，获取 SVG 文件
 4. 将 SVG 文件直接嵌入项目，或转换为所需格式
@@ -53,5 +51,5 @@ Loom Icon 是一个专注于服装的矢量图标资源站，提供高质量、�
 本项目所有图标与代码均基于 **MIT 许可证** 开源，你可以自由使用、修改和分发。
 
 ## 💬 联系我们
-- GitHub 仓库：[https://github.com/你的用户名/loom-icon](https://aglt2w.github.io/loomicon/)
-- 官网地址：[https://你的域名.com](https://aglt2w.github.io/loomicon/)
+- GitHub 仓库：[https://aglt2w.github.io/loomicon/]
+- 官网地址：[https://aglt2w.github.io/loomicon/]
