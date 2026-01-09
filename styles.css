@@ -26,7 +26,7 @@
   margin-bottom: 24px;         /* 和下方内容的间距，避免拥挤 */
 
   /* 核心：logo背景图（文字前的图标） */
-  background: url(./logo.svg) left center no-repeat; /* 路径：styles.css和logo.svg同目录，直接写./logo.svg */
+  background: url(./assets/icons) left center no-repeat; /* 路径：styles.css和logo.svg同目录，直接写./logo.svg */
   background-size: 38px 38px;  /* logo尺寸（矢量SVG无需担心模糊，32-48px为宜） */
   padding-left: 48px;          /* 图标+文字间距：logo宽度(38px) + 10px间距 */
 }
