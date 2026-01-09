@@ -11,7 +11,7 @@ CATEGORY_MAP = {
 
 # 扫描icons文件夹，生成清单
 icon_list = []
-icons_dir = "./icons"
+icons_dir = "./assets/icons"
 
 # 遍历每个分类文件夹
 for folder in os.listdir(icons_dir):
