@@ -1,5 +1,3 @@
-// 删掉原有所有categoryFolderMap、mockSvg相关代码
-
 // 图标数据源
 let iconData = [];
 
@@ -19,24 +17,22 @@ let allCategories = [];
 const downloadSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path></svg>';
 const copySvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"></path></svg>';
 
-// 自动加载图标数据（仅读取JSON清单，终身不用改）
+// ========== 核心修改：只请求1次JSON，不再逐个请求SVG ==========
 async function loadIconData() {
   try {
-    // 1. 读取图标清单
+    // 1. 只读取1次包含所有SVG内容的JSON（离线打包好的）
     const listRes = await fetch('./icon-list.json');
+    if (!listRes.ok) throw new Error(`读取清单失败：${listRes.status}`);
     const iconList = await listRes.json();
     
-    // 2. 加载每个SVG的内容
-    iconData = [];
-    for (const item of iconList) {
-      const svgRes = await fetch(`./assets/icons/${item.folder}/${item.filename}`);
-      const svgContent = await svgRes.text();
-      iconData.push({
-        name: item.name,
-        svg: svgContent,
-        category: item.category
-      });
-    }
+    // 2. 直接从JSON拿SVG内容，无需再请求每个SVG文件（核心提速）
+    iconData = iconList.map(item => ({
+      name: item.name,          // 匹配JSON里的name字段
+      svg: item.svg,            // 匹配JSON里的svg字段（已包含完整SVG代码）
+      category: item.category   // 匹配JSON里的category字段
+    }));
+
+    console.log(`✅ 图标加载完成！共${iconData.length}个`);
   } catch (err) {
     console.error("加载图标失败:", err);
     // 本地测试兜底：显示默认图标
@@ -47,6 +43,7 @@ async function loadIconData() {
     }];
   }
 }
+// ========== 核心修改结束 ==========
 
 // 页面初始化（保持不变）
 (async function init() {
