@@ -14,8 +14,25 @@
     /* 可选：优化滚轮滚动的阻尼感 */
     scroll-padding-top: 80px; /* 适配sticky搜索栏，锚点跳转时不被遮挡 */
   }
-  
-  /* 头部样式 - 保持不变 */
+
+  /* ===================== 左上角logo样式（CSS背景图实现） ===================== */
+.header-logo {
+  /* 基础布局：高度+文字垂直居中 */
+  height: 64px;                /* logo栏高度，可按需调（60-70px为宜） */
+  line-height: 64px;           /* 和height一致，文字垂直居中 */
+  font-size: 24px;             /* 标题文字大小 */
+  font-weight: 600;            /* 文字加粗 */
+  color: #1A2B48;              /* 你的主题主色，保持视觉统一 */
+  margin-bottom: 24px;         /* 和下方内容的间距，避免拥挤 */
+
+  /* 核心：logo背景图（文字前的图标） */
+  background: url(./logo.svg) left center no-repeat; /* 路径：styles.css和logo.svg同目录，直接写./logo.svg */
+  background-size: 38px 38px;  /* logo尺寸（矢量SVG无需担心模糊，32-48px为宜） */
+  padding-left: 48px;          /* 图标+文字间距：logo宽度(38px) + 10px间距 */
+}
+
+/* ===================== 整合logo样式到现有.logo类（核心修复） ===================== */
+  /* 头部样式 - 保留原有结构，仅修改.logo类 */
   header {
     background-color: #f2f4fa;
     padding: 1rem 2rem;
@@ -28,18 +45,28 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 160px; /* 原0 20px → 0 160px，和search-section的padding一致，左对齐核心 */
+    padding: 0 160px; 
   }
   
   .logo {
-    font-size: 0.75rem; /* 原1.5rem缩小一半 → 0.75rem */
-    color: #1a2b48; /* 替换成服装站的深蓝色，去掉原黄色 */
-    font-family: 'Lexend', sans-serif; /* 替换掉手写体Pacifico，用Lexend 500 */
-    font-weight: 300; /* 匹配Lexend 500字重 */
-    letter-spacing: 1px; /* 轻微字间距，更协调 */
-    text-transform: uppercase; /* 全大写，和标题统一 */
-    margin-left: -30px; /* 核心：左移30px，抵消偏移 */
+    font-size: 0.75rem; 
+    color: #1a2b48; 
+    font-family: 'Lexend', sans-serif; 
+    font-weight: 300; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+    margin-left: -30px; 
+    /* 👇 新增logo背景图样式（核心！） */
+    background: url(./logo.svg) left center no-repeat; /* 路径务必确认：styles.css和logo.svg同目录 */
+    background-size: 28px 28px; /* 适配现有logo文字大小，缩小到28px更协调 */
+    padding-left: 38px; /* logo宽度28px + 10px间距 */
+    height: 40px; /* 保证logo垂直居中的高度 */
+    line-height: 40px; /* 和height一致，文字垂直居中 */
+    display: inline-block; /* 保证背景图生效 */
   }
+  
+  /* 👇 删除原来无效的.header-logo和.icon-content样式（这两个类没用） */
+  /* （如果你的代码里有这两个类，直接删掉，避免冗余） */
   
   .nav-links {
     display: none;
@@ -49,10 +76,13 @@
   /* 新增：手机端logo适配 */
 @media (max-width: 768px) {
     .header-container {
-      padding: 0 20px; /* 手机端和搜索框同步改回20px，避免挤边 */
+      padding: 0 20px; 
     }
     .logo {
-      font-size: 0.6rem; /* 手机端logo稍小，保持比例 */
+      font-size: 0.6rem; 
+      background-size: 24px 24px; /* 手机端logo图标缩小 */
+      padding-left: 34px; /* 24px + 10px间距 */
+      margin-left: 0; /* 手机端取消左移，避免logo超出屏幕 */
     }
   }
 
