@@ -29,7 +29,7 @@ async function loadIconData() {
     // 2. 加载每个SVG的内容
     iconData = [];
     for (const item of iconList) {
-      const svgRes = await fetch(`./icons/${item.folder}/${item.filename}`);
+      const svgRes = await fetch(`./assets/icons/${item.folder}/${item.filename}`);
       const svgContent = await svgRes.text();
       iconData.push({
         name: item.name,
