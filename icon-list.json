@@ -1,0 +1,74 @@
+[
+  {
+    "folder": "category",
+    "filename": "shirt.svg",
+    "category": "服装品类",
+    "name": "shirt"
+  },
+  {
+    "folder": "category",
+    "filename": "pants.svg",
+    "category": "服装品类",
+    "name": "pants"
+  },
+  {
+    "folder": "category",
+    "filename": "设置.svg",
+    "category": "服装品类",
+    "name": "设置"
+  },
+  {
+    "folder": "basic",
+    "filename": "下载.svg",
+    "category": "基础图标",
+    "name": "下载"
+  },
+  {
+    "folder": "basic",
+    "filename": "cotton.svg",
+    "category": "基础图标",
+    "name": "cotton"
+  },
+  {
+    "folder": "basic",
+    "filename": "linen.svg",
+    "category": "基础图标",
+    "name": "linen"
+  },
+  {
+    "folder": "function",
+    "filename": "zipper.svg",
+    "category": "功能标识",
+    "name": "zipper"
+  },
+  {
+    "folder": "function",
+    "filename": "button.svg",
+    "category": "功能标识",
+    "name": "button"
+  },
+  {
+    "folder": "function",
+    "filename": "搜索.svg",
+    "category": "功能标识",
+    "name": "搜索"
+  },
+  {
+    "folder": "logo",
+    "filename": "scissors.svg",
+    "category": "LOGO",
+    "name": "scissors"
+  },
+  {
+    "folder": "logo",
+    "filename": "sewing-machine.svg",
+    "category": "LOGO",
+    "name": "sewing-machine"
+  },
+  {
+    "folder": "logo",
+    "filename": "返回.svg",
+    "category": "LOGO",
+    "name": "返回"
+  }
+]
