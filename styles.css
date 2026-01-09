@@ -1,494 +1,248 @@
-/* 基础重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: sans-serif;
-    background: #ffffff;
-    min-height: 1024px;
-    /* 新增：全局平滑滚动 */
-    scroll-behavior: smooth;
-    /* 可选：优化滚轮滚动的阻尼感 */
-    scroll-padding-top: 80px; /* 适配sticky搜索栏，锚点跳转时不被遮挡 */
-  }
+// 删掉原有所有categoryFolderMap、mockSvg相关代码
 
-  /* ===================== 左上角logo样式（CSS背景图实现） ===================== */
-.header-logo {
-  /* 基础布局：高度+文字垂直居中 */
-  height: 64px;                /* logo栏高度，可按需调（60-70px为宜） */
-  line-height: 64px;           /* 和height一致，文字垂直居中 */
-  font-size: 24px;             /* 标题文字大小 */
-  font-weight: 600;            /* 文字加粗 */
-  color: #1A2B48;              /* 你的主题主色，保持视觉统一 */
-  margin-bottom: 24px;         /* 和下方内容的间距，避免拥挤 */
+// 图标数据源
+let iconData = [];
 
-  /* 核心：logo背景图（文字前的图标） */
-  background: url(./assets/icons) left center no-repeat; /* 路径：styles.css和logo.svg同目录，直接写./logo.svg */
-  background-size: 38px 38px;  /* logo尺寸（矢量SVG无需担心模糊，32-48px为宜） */
-  padding-left: 48px;          /* 图标+文字间距：logo宽度(38px) + 10px间距 */
+// DOM元素获取（保持不变）
+const selectWrapper = document.getElementById('custom-select-wrapper');
+const selectBtn = document.getElementById('custom-select-btn');
+const selectedText = document.getElementById('selected-category');
+const selectList = document.getElementById('custom-select-list');
+const searchInput = document.getElementById('search-input');
+const searchIcon = document.getElementById('search-icon');
+const iconContainer = document.getElementById('icon-categories-container');
+
+// 分类列表
+let allCategories = [];
+
+// 替换后的SVG图标（保持不变）
+const downloadSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M3 19H21V21H3V19ZM13 13.1716L19.0711 7.1005L20.4853 8.51472L12 17L3.51472 8.51472L4.92893 7.1005L11 13.1716V2H13V13.1716Z"></path></svg>';
+const copySvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"></path></svg>';
+
+// 自动加载图标数据（仅读取JSON清单，终身不用改）
+async function loadIconData() {
+  try {
+    // 1. 读取图标清单
+    const listRes = await fetch('./icon-list.json');
+    const iconList = await listRes.json();
+    
+    // 2. 加载每个SVG的内容
+    iconData = [];
+    for (const item of iconList) {
+      const svgRes = await fetch(`./assets/icons/${item.folder}/${item.filename}`);
+      const svgContent = await svgRes.text();
+      iconData.push({
+        name: item.name,
+        svg: svgContent,
+        category: item.category
+      });
+    }
+  } catch (err) {
+    console.error("加载图标失败:", err);
+    // 本地测试兜底：显示默认图标
+    iconData = [{
+      name: "默认图标",
+      svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      category: "默认分类"
+    }];
+  }
 }
 
-/* ===================== 整合logo样式到现有.logo类（核心修复） ===================== */
-  /* 头部样式 - 保留原有结构，仅修改.logo类 */
-  header {
-    background-color: #f2f4fa;
-    padding: 1rem 2rem;
-    width: 100%;
-  }
-  
-  .header-container {
-    max-width: 1560px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 160px; 
-  }
-  
-  .logo {
-    font-size: 0.75rem; 
-    color: #1a2b48; 
-    font-family: 'Lexend', sans-serif; 
-    font-weight: 300; 
-    letter-spacing: 1px; 
-    text-transform: uppercase; 
-    margin-left: -30px; 
-    /* 👇 新增logo背景图样式（核心！） */
-    background: url(./logo.svg) left center no-repeat; /* 路径务必确认：styles.css和logo.svg同目录 */
-    background-size: 28px 28px; /* 适配现有logo文字大小，缩小到28px更协调 */
-    padding-left: 38px; /* logo宽度28px + 10px间距 */
-    height: 40px; /* 保证logo垂直居中的高度 */
-    line-height: 40px; /* 和height一致，文字垂直居中 */
-    display: inline-block; /* 保证背景图生效 */
-  }
-  
-  /* 👇 删除原来无效的.header-logo和.icon-content样式（这两个类没用） */
-  /* （如果你的代码里有这两个类，直接删掉，避免冗余） */
-  
-  .nav-links {
-    display: none;
-    gap: 2rem;
-  }
-  
-  /* 新增：手机端logo适配 */
-@media (max-width: 768px) {
-    .header-container {
-      padding: 0 20px; 
-    }
-    .logo {
-      font-size: 0.6rem; 
-      background-size: 24px 24px; /* 手机端logo图标缩小 */
-      padding-left: 34px; /* 24px + 10px间距 */
-      margin-left: 0; /* 手机端取消左移，避免logo超出屏幕 */
-    }
-  }
+// 页面初始化（保持不变）
+(async function init() {
+  await loadIconData();
+  allCategories = ['全部图标', ...new Set(iconData.map(item => item.category))];
+  renderSelectOptions();
+  renderIcons(iconData);
+  bindEvents();
+})();
 
-  @media (min-width: 768px) {
-    .nav-links { display: flex; }
-  }
-  
-  .nav-links a {
-    color: #64748b;
-    text-decoration: none;
-  }
-  
-  .nav-links a:hover { color: #F5B32C; }
-  
-  /* 英雄区样式 - 保持不变 */
-  .hero {
-    background-color: #f3f4f6;
-    /* 核心调整：下调底部内边距（6.5rem → 8rem），拉高灰色块底部；上下内边距保持6rem不变，保证顶部视觉 */
-    padding: 6rem 2rem 8rem; 
-    text-align: center;
-    position: relative;
-    /* 新增：强制保证灰色块最小高度，避免内容影响对齐 */
-    min-height: 320px; 
-    /* 新增：内边距不超出容器，布局更稳定 */
-    box-sizing: border-box; 
-  }
-  
-  .hero > * {
-    position: relative;
-    z-index: 1;
-    margin-top: 0 !important;
-    margin-bottom: 1.5rem !important;
-  }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-    color: #111827;
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    color: #64748b;
-    max-width: 800px;
-    margin: 0 auto 2rem;
-    line-height: 1.6;
-  }
-  
-  .features {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-    margin-bottom: 0 !important;
-  }
-  
-  .feature-item {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    color: #374151;
-    font-size: 1.1rem;
-  }
-  
-  .feature-item i {
-    color: #F5B32C;
-    font-size: 1.5rem;
-  }
-  
-  /* 搜索区 - 核心改margin-top的负边距 */
-.search-section {
-    max-width: 1560px;
-    margin: -2rem auto 4rem; /* 关键：-1rem → -3rem，加大负边距把搜索框往上拉 */
-    padding: 0 160px;
-    position: sticky;
-    top: 24px;
-    z-index: 90;
-    width: 100%;
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    width: 100%;
-    height: 72px;
-    position: relative;
-    border: 1px solid rgba(245, 179, 44, 0.1);
-    padding: 0;
-  }
-  
-  /* 下拉框容器 - 精准修复：取消左侧偏移，仅调整下拉列表 */
-  .custom-select-wrapper {
-    position: relative;
-    width: 180px; /* 原始宽度，无额外增加 */
-    height: 100%;
-    padding: 0 16px; /* 原始内边距，无额外增加 */
-    border-right: 1px solid rgba(229, 231, 235, 0.5);
-    z-index: 100;
-    background: transparent;
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
-    /* 取消之前的偏移和额外内边距，恢复原始状态 */
-    margin-left: 0;
-    padding-left: 16px;
-  }
-  
-  /* 下拉按钮 - 保持不变 */
-  .custom-select-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    color: #374151;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    outline: none;
-  }
-  
-  .select-icon {
-    font-size: 12px;
-    color: #64748b;
-    transition: transform 0.2s ease;
-  }
-  
-  .custom-select-wrapper.open .select-icon {
-    transform: rotate(180deg);
-  }
-  
-  /* 下拉列表 - 精准对齐：仅宽度匹配，无偏移 */
-  .custom-select-list {
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 0; /* 取消左侧偏移，精准对齐 */
-    width: 100%; /* 宽度与分类框完全一致，无额外增加 */
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 16px; /* 与分类框圆角一致 */
-    border: 1px solid rgba(245, 179, 44, 0.2);
-    box-shadow: 0 8px 32px rgba(245, 179, 44, 0.08);
-    z-index: 9999;
-    height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: height 0.2s ease, opacity 0.2s ease;
-    padding: 4px 0;
-    /* 关键：让下拉列表的圆角与分类框完全重叠 */
-    box-sizing: border-box;
-  }
-  
-  .custom-select-wrapper.open .custom-select-list {
-    height: auto;
-    opacity: 1;
-  }
-  
-  /* 分类选项 - 恢复原始内边距，精准对齐 */
-  .select-option {
-    padding: 0 16px; /* 恢复原始内边距，与分类框文字对齐 */
-    height: 72px;
-    line-height: 72px;
-    cursor: pointer;
-    color: #374151;
-    font-size: 15px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-    border-radius: 8px;
-    margin: 4px 8px;
-    background: transparent;
-  }
-  
-  .custom-select-wrapper.open .select-option {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .select-option:hover {
-    background-color: rgba(243, 244, 246, 0.6);
-    color: #F5B32C;
-  }
-  
-  .select-option.active {
-    background-color: transparent;
-    color: #F5B32C;
-    font-weight: 500;
-  }
-  
-  /* 搜索输入框 - 调整内边距，适配search-container取消的padding */
-  .search-input {
-    flex: 1;
-    padding: 0 20px 0 20px; /* 左侧增加20px内边距，避免贴边 */
-    border: none;
-    outline: none;
-    font-size: 16px;
-    color: #333;
-    height: 100%;
-    background: transparent;
-    order: 1;
-    autocomplete: off;
-  }
-  
-  input[type="text"] {
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  
-  .search-input::placeholder {
-    color: #bcc1cc;
-    opacity: 1;
-  }
-  
-  /* 搜索图标 - 保持不变 */
-  .search-icon-wrap {
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin: 0 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .search-icon svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  
-  .search-input:focus ~ .search-icon-wrap .search-icon svg path,
-  .search-input:not(:placeholder-shown) ~ .search-icon-wrap .search-icon svg path {
-    fill: #F5B32C !important;
-  }
-  
-  /* 图标展示区 - 保持不变 */
-  .icon-grid-section {
-    max-width: 1560px;
-    margin: 0 auto;
-    padding: 0 160px 4rem;
-    width: 100%;
-  }
-  
-  .category-title {
-    font-size: 1rem;
-    color: #111827;
-    font-weight: 600;
-    margin: 2rem 0 1.5rem 0;
-    padding-left: 0.5rem;
-    border-left: none;
-  }
-  
-  .icon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 120px);
-    gap: 2rem;
-    justify-content: flex-start;
-    width: 100%;
-  }
-  
-  /* 玻璃拟态卡片样式 - 保持不变 */
-  .icon-card {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(245, 179, 44, 0.1);
-    border-radius: 0.8rem;
-    position: relative;
-    transition: all 0.4s ease;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-    margin: 10px;
-    padding: 10px 0;
-  }
-  
-  .icon-card:hover {
-    border-color: rgba(245, 179, 44, 0.4);
-    transform: translateY(-8px);
-    box-shadow: 0 16px 40px rgba(245, 179, 44, 0.1);
-    background: rgba(255, 255, 255, 0.95);
-  }
-  
-  .icon-svg {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: none;
-  }
-  
-  .icon-svg svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  .icon-name {
-    font-size: 14px;
-    color: #333;
-    transform: translateY(10px);
-    transition: transform 0.4s ease-out, opacity 0.3s ease-out;
-    position: relative;
-    white-space: nowrap;
-    opacity: 1;
-  }
-  
-  .icon-card:hover .icon-name {
-    transform: translateY(-5px);
-    opacity: 0;
-  }
-  
-  /* 悬浮按钮容器 - 保持不变 */
-  .icon-actions {
-    position: absolute;
-    bottom: -20px;
-    display: flex;
-    gap: 0.5rem;
-    opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 2;
-  }
-  
-  .icon-card:hover .icon-actions {
-    bottom: 12px;
-    opacity: 1;
-  }
-  
-  /* 悬浮按钮：玻璃拟态风格 - 保持不变 */
-  .icon-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 0.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    margin: 0 2px;
-  }
-  
-  .download-btn {
-    background-color: #F5B32C;
-    color: #000000;
-  }
-  
-  .download-btn:hover {
-    background-color: #e0a21a;
-    color: #000000;
-  }
-  
-  .copy-btn {
-    background-color: #e5e7eb;
-    color: #374151;
-  }
-  
-  .copy-btn:hover {
-    background-color: #d1d5db;
-    color: #374151;
-  }
-  
-  /* 保持18px悬浮图标 */
-  .icon-btn svg {
-    width: 18px;
-    height: 18px;
-    transition: all 0.2s ease;
-  }
-  
-  .icon-btn:hover svg {
-    transform: scale(1.1);
-  }
-  
-  .empty-state {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 2rem;
-    color: #64748b;
-    font-size: 1.1rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 16px;
-  }
-  
-  /* 页脚 - 保持不变 */
-  footer {
-    background-color: #f9fafb;
-    padding: 2rem;
-    text-align: center;
-    color: #64748b;
-    font-size: 0.875rem;
-  }
+// 以下所有函数（bindEvents、renderSelectOptions等）完全保留，不用改
+function bindEvents() {
+    selectBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectWrapper.classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+        selectWrapper.classList.remove('open');
+    });
+    searchInput.addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+        renderIcons(filtered);
+        resetSelect();
+        if (this.value.trim() === '') {
+            this.setAttribute('placeholder', '搜索图标...');
+        } else {
+            this.removeAttribute('placeholder');
+        }
+    });
+    searchIcon.addEventListener('click', function() {
+        searchInput.focus();
+        const keyword = searchInput.value.toLowerCase().trim();
+        const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+        renderIcons(filtered);
+        resetSelect();
+    });
+}
+
+function renderSelectOptions() {
+    selectList.innerHTML = '';
+    allCategories.forEach(cat => {
+        const opt = document.createElement('div');
+        opt.className = 'select-option ' + (cat === '全部图标' ? 'active' : '');
+        opt.dataset.cat = cat;
+        opt.textContent = cat;
+        opt.addEventListener('click', function() {
+            document.querySelectorAll('.select-option').forEach(o => o.classList.remove('active'));
+            this.classList.add('active');
+            selectedText.textContent = cat;
+            selectWrapper.classList.remove('open');
+            filterByCategory(cat);
+        });
+        selectList.appendChild(opt);
+    });
+}
+
+function filterByCategory(cat) {
+    const filtered = cat === '全部图标' ? iconData : iconData.filter(icon => icon.category === cat);
+    renderIcons(filtered);
+}
+
+function renderIcons(data) {
+    const grouped = {};
+    data.forEach(icon => {
+        if (!grouped[icon.category]) grouped[icon.category] = [];
+        grouped[icon.category].push(icon);
+    });
+    iconContainer.innerHTML = '';
+    Object.keys(grouped).forEach(cat => {
+        const title = document.createElement('h2');
+        title.className = 'category-title';
+        title.textContent = cat;
+        const grid = document.createElement('div');
+        grid.className = 'icon-grid';
+        grouped[cat].forEach(icon => {
+            const card = createIconCard(icon);
+            grid.appendChild(card);
+        });
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(title);
+        wrapper.appendChild(grid);
+        iconContainer.appendChild(wrapper);
+    });
+    if (Object.keys(grouped).length === 0) {
+        iconContainer.innerHTML = '<div class="empty-state">暂无匹配图标</div>';
+    }
+}
+
+function createIconCard(icon) {
+    const card = document.createElement('div');
+    card.className = 'icon-card';
+    card.innerHTML = `
+      <div class="icon-svg">${icon.svg}</div>
+      <div class="icon-name">${icon.name}</div>
+      <div class="icon-actions">
+        <button class="icon-btn download-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+          ${downloadSvg}
+        </button>
+        <button class="icon-btn copy-btn" data-name="${icon.name}" data-svg="${encodeURIComponent(icon.svg)}">
+          ${copySvg}
+        </button>
+      </div>
+    `;
+    card.querySelector('.download-btn').addEventListener('click', function() {
+        const name = this.dataset.name;
+        const svg = decodeURIComponent(this.dataset.svg);
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name}.svg`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    });
+    card.querySelector('.copy-btn').addEventListener('click', function() {
+        const name = this.dataset.name;
+        const svg = decodeURIComponent(this.dataset.svg);
+        copyIcon(name, svg);
+    });
+    return card;
+}
+
+function copyIcon(name, svg) {
+    navigator.clipboard.writeText(svg).then(() => {
+        const tip = document.createElement('div');
+        tip.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 1px solid rgba(245, 179, 44, 0.2);
+            box-shadow: 0 4px 16px rgba(245, 179, 44, 0.15);
+            transform: translateX(-50%) translateY(10px);
+        `;
+        tip.innerHTML = ` <span style="color: #F5B32C; font-weight: 600;">${name}</span> 图标SVG代码已复制！`;
+        document.body.appendChild(tip);
+        setTimeout(() => {
+            tip.style.opacity = '1';
+            tip.style.transform = 'translateX(-50%) translateY(0)';
+        }, 10);
+        setTimeout(() => {
+            tip.style.opacity = '0';
+            tip.style.transform = 'translateX(-50%) translateY(-10px)';
+            setTimeout(() => document.body.removeChild(tip), 300);
+        }, 2000);
+    }).catch(err => {
+        console.error('复制失败:', err);
+        const tip = document.createElement('div');
+        tip.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            box-shadow: 0 4px 16px rgba(220, 53, 69, 0.1);
+            transform: translateX(-50%) translateY(10px);
+        `;
+        tip.innerHTML = `❌ <span style="color: #dc3545; font-weight: 600;">${name}</span> 复制失败，请手动复制！`;
+        document.body.appendChild(tip);
+        setTimeout(() => {
+            tip.style.opacity = '1';
+            tip.style.transform = 'translateX(-50%) translateY(0)';
+        }, 10);
+        setTimeout(() => {
+            tip.style.opacity = '0';
+            tip.style.transform = 'translateX(-50%) translateY(-10px)';
+            setTimeout(() => document.body.removeChild(tip), 300);
+        }, 2000);
+    });
+}
+
+function resetSelect() {
+    selectedText.textContent = '全部图标';
+    document.querySelectorAll('.select-option').forEach(o => {
+        o.classList.remove('active');
+        if (o.dataset.cat === '全部图标') o.classList.add('active');
+    });
+}
