@@ -69,4 +69,8 @@ def main():
     print(f"\n✅ 生成完成：共{len(icon_list)}个图标，分类已全部转为中文！")
 
 if __name__ == "__main__":
+
     main()
+
+    main() 
+
