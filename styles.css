@@ -534,6 +534,24 @@ footer {
   font-size: 0.875rem;
 }
 
+/* 导航链接显示逻辑（补充） */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+}
+.nav-links {
+  display: none;
+  gap: 2rem;
+}
+.nav-links a {
+  color: #64748b;
+  text-decoration: none;
+}
+.nav-links a:hover {
+  color: #F5B32C;
+}
+
 /* ===================== 手机端适配（768px以下，参考remixicon.com） ===================== */
 @media (max-width: 768px) {
   /* 1. 头部适配 */
@@ -554,34 +572,44 @@ footer {
     gap: 1rem; /* 缩小导航链接间距 */
   }
 
-  /* 2. 标题横幅适配 */
+  /* 2. 标题横幅适配（强制一行，缩小文字） */
+  .title-banner {
+    width: 100%; /* 占满屏幕宽度 */
+    padding: 0 10px; /* 左右留边 */
+  }
   .title-banner .banner-right-wrap {
-    height: 36px;
-    padding-right: 16px;
+    height: 34px; /* 略缩小高度 */
+    padding-right: 12px; /* 缩小右侧内边距 */
+    width: 100%; /* 占满父容器宽度，确保一行 */
   }
   .title-banner .banner-left {
-    font-size: 12px;
-    padding: 0 10px;
-    height: 28px;
-    line-height: 28px;
-    left: 4px;
+    font-size: 11px; /* 进一步缩小左侧文字 */
+    padding: 0 8px; /* 缩小左右内边距 */
+    height: 26px; /* 适配高度 */
+    line-height: 26px;
+    left: 3px;
     top: 4px;
     bottom: 4px;
   }
   .title-banner .banner-right {
-    font-size: 12px;
-    padding-left: calc(70px + 4px + 10px); /* 适配手机端黑框宽度 */
-    line-height: 36px;
+    font-size: 11px; /* 缩小右侧文字，确保一行 */
+    padding-left: calc(60px + 3px + 8px); /* 精准计算缩进，适配缩小后的黑框 */
+    line-height: 34px;
+    letter-spacing: 0; /* 取消字母间距，节省空间 */
+    width: 100%; /* 占满剩余宽度 */
+    overflow: hidden; /* 极端情况防止溢出 */
+    text-overflow: ellipsis; /* 极端情况显示省略号（备用） */
   }
 
-  /* 3. Hero区域适配 */
+  /* 3. Hero区域适配（大标题再缩小） */
   .hero {
     padding: 3rem 1rem 4rem; /* 大幅缩小上下内边距，适配手机屏幕 */
     min-height: 240px; /* 降低最小高度 */
   }
   .hero h1 {
-    font-size: 1.8rem; /* 缩小标题字体 */
+    font-size: 1.6rem; /* 从1.8rem→1.6rem，进一步缩小大标题 */
     margin-bottom: 1rem;
+    line-height: 1.3; /* 缩小行高，节省空间 */
   }
   .hero p {
     font-size: 0.9rem; /* 缩小正文字体 */
@@ -632,45 +660,49 @@ footer {
     font-size: 14px;
   }
 
-  /* 5. 图标网格区域适配 */
+  /* 5. 图标网格区域适配（固定一行4个，缩小卡片） */
   .icon-grid-section {
-    padding: 0 20px 2rem; /* 去掉大间距 */
+    padding: 0 15px 2rem; /* 进一步缩小左右内边距，给网格更多空间 */
   }
   .category-title {
     font-size: 0.9rem; /* 缩小分类标题 */
     margin: 1.5rem 0 1rem 0; /* 缩小上下间距 */
   }
   .icon-grid {
-    grid-template-columns: repeat(auto-fill, 90px); /* 缩小图标卡片宽度，适配手机 */
-    gap: 1rem; /* 缩小网格间距 */
-    justify-content: center; /* 居中排列，更符合手机端视觉 */
+    grid-template-columns: repeat(4, 1fr); /* 强制一行4个，适配手机宽度 */
+    gap: 12px; /* 缩小网格间距 */
+    justify-content: center; /* 居中排列 */
+    padding: 0 5px; /* 左右微留边 */
   }
   .icon-card {
-    width: 90px; /* 缩小卡片尺寸 */
-    height: 90px;
-    margin: 5px; /* 缩小卡片外边距 */
-    padding: 8px 0;
+    width: 100%; /* 自适应网格宽度 */
+    height: 80px; /* 从120px→80px，缩小卡片高度 */
+    margin: 0; /* 去掉原有margin，避免挤压 */
+    padding: 8px 0; /* 缩小内边距 */
+    border-radius: 0.6rem; /* 略缩小圆角，适配小卡片 */
   }
   .icon-svg {
-    width: 22px; /* 轻微缩小图标尺寸 */
-    height: 22px;
-    margin-bottom: 8px;
+    width: 20px; /* 从24px→20px，缩小图标尺寸 */
+    height: 20px;
+    margin-bottom: 6px; /* 缩小图标与文字间距 */
   }
   .icon-name {
-    font-size: 12px; /* 缩小图标名称字体 */
+    font-size: 12px; /* 缩小图标名称 */
   }
   .icon-actions {
-    bottom: -15px; /* 调整操作按钮初始位置 */
+    bottom: -15px;
+    gap: 0.3rem; /* 缩小按钮间距 */
   }
   .icon-card:hover .icon-actions {
-    bottom: 8px; /* 调整hover后位置 */
+    bottom: 8px; /* 调整hover后按钮位置 */
   }
   .icon-btn {
-    width: 32px; /* 缩小操作按钮尺寸 */
-    height: 32px;
+    width: 30px; /* 从36px→30px，缩小按钮尺寸 */
+    height: 30px;
+    border-radius: 0.5rem; /* 适配小按钮 */
   }
   .icon-btn svg {
-    width: 16px; /* 缩小按钮内图标 */
+    width: 16px; /* 从18px→16px，缩小按钮内图标 */
     height: 16px;
   }
 
@@ -685,22 +717,4 @@ footer {
     padding: 1.5rem 1rem; /* 缩小页脚内边距 */
     font-size: 0.8rem; /* 缩小页脚文字 */
   }
-}
-
-/* 导航链接显示逻辑（补充） */
-@media (min-width: 768px) {
-  .nav-links {
-    display: flex;
-  }
-}
-.nav-links {
-  display: none;
-  gap: 2rem;
-}
-.nav-links a {
-  color: #64748b;
-  text-decoration: none;
-}
-.nav-links a:hover {
-  color: #F5B32C;
 }
