@@ -7,9 +7,8 @@ def run_python_script(script_path):
     """运行指定的Python脚本（用于更新JSON文件）"""
     try:
         print(f"[开始] 运行JSON更新脚本: {script_path}")
-        # 调用指定的Python脚本，捕获输出和错误
         result = subprocess.run(
-            [sys.executable, script_path],  # 使用当前Python环境执行
+            [sys.executable, script_path],
             check=True,
             capture_output=True,
             text=True
@@ -17,25 +16,38 @@ def run_python_script(script_path):
         print(f"[成功] JSON更新脚本执行完成，输出: {result.stdout}")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"[失败] JSON更新脚本执行出错: {e.stderr}")
-        return False
+        print(f"[警告] JSON更新脚本执行出错: {e.stderr}（继续执行推送流程）")
+        return False  # 改为返回False，不终止流程
     except FileNotFoundError:
-        print(f"[失败] 找不到指定的脚本文件: {script_path}")
+        print(f"[警告] 找不到指定的JSON脚本: {script_path}（继续执行推送流程）")
         return False
 
 def git_commit_and_push(commit_msg=None):
-    """执行Git提交和推送操作"""
-    # 自动生成提交信息（带时间戳）
+    """执行Git提交和推送操作（新增git pull防冲突）"""
     if not commit_msg:
         commit_msg = f"自动更新JSON文件 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     
+    # 【新增】推送前先拉取远程最新代码，避免冲突（仅加这一段）
+    try:
+        print("[开始] 拉取GitHub远程最新代码...")
+        pull_result = subprocess.run(
+            ["git", "pull", "origin", "main"],
+            check=True,
+            capture_output=True,
+            text=True,
+            cwd=os.getcwd()
+        )
+        print(f"[成功] 拉取远程代码完成: {pull_result.stdout}")
+    except subprocess.CalledProcessError as e:
+        print(f"[失败] 拉取远程代码出错（可能无新内容）: {e.stderr}")
+        # 拉取失败不终止，继续尝试提交推送
+    
     git_commands = [
-        ["git", "add", "."],  # 添加所有修改/新增的文件
-        ["git", "commit", "-m", commit_msg],  # 提交
-        ["git", "push", "origin", "main"]  # 推送到main分支（若你的分支是master，改成master）
+        ["git", "add", "."],
+        ["git", "commit", "-m", commit_msg],
+        ["git", "push", "origin", "main"]
     ]
     
-    # 依次执行Git命令
     for cmd in git_commands:
         try:
             print(f"[开始] 执行Git命令: {' '.join(cmd)}")
@@ -44,7 +56,7 @@ def git_commit_and_push(commit_msg=None):
                 check=True,
                 capture_output=True,
                 text=True,
-                cwd=os.getcwd()  # 执行目录为脚本所在目录（即你的本地仓库根目录）
+                cwd=os.getcwd()
             )
             print(f"[成功] Git命令执行完成: {result.stdout}")
         except subprocess.CalledProcessError as e:
@@ -56,21 +68,15 @@ def git_commit_and_push(commit_msg=None):
     return True
 
 if __name__ == "__main__":
-    # ==================== 请根据你的实际情况修改以下配置 ====================
-    # 你之前写的、用于更新JSON文件的Python脚本路径（绝对路径/相对路径都可以）
-    JSON_UPDATE_SCRIPT_PATH = "./generate-icon-list.py"  # 示例路径，替换成你的实际脚本名
-    # 自定义提交信息（可选，留空则使用自动生成的带时间戳信息）
+    JSON_UPDATE_SCRIPT_PATH = "./generate-icon-list.py"
     CUSTOM_COMMIT_MSG = ""
-    # =======================================================================
 
-    # 步骤1：运行JSON更新脚本
-    if not run_python_script(JSON_UPDATE_SCRIPT_PATH):
-        print("JSON更新脚本执行失败，终止自动化流程")
-        sys.exit(1)
+    # 步骤1：运行JSON更新脚本（失败不终止）
+    run_python_script(JSON_UPDATE_SCRIPT_PATH)  # 去掉if判断，不终止流程
     
     # 步骤2：执行Git提交和推送
     if git_commit_and_push(CUSTOM_COMMIT_MSG):
-        print("\n✅ 全部流程完成：JSON文件已更新 + 代码已推送到GitHub")
+        print("\n✅ 全部流程完成：代码已推送到GitHub")
     else:
         print("\n❌ Git提交/推送失败，请检查仓库状态和网络")
         sys.exit(1)
