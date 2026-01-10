@@ -101,5 +101,4 @@ python3 --version
 ## 📝 开发说明
 本网站（HTML/CSS/JS）及所有自动化提交脚本（`auto_update_and_push.py`、`push.bat` 等）均由豆包辅助编写完成。
 
----
 如果遇到其他问题，可查看项目提交记录或联系开发者。
