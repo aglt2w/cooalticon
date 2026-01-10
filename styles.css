@@ -323,7 +323,7 @@ header {
 
 .search-input {
   flex: 1;
-  padding: 0 20px 0 20px;
+  padding: 0 20px 0 0px;
   border: none;
   outline: none;
   font-size: 16px;
@@ -619,7 +619,7 @@ footer {
   }
   .search-input {
     font-size: 14px; /* 缩小搜索输入框文字 */
-    padding: 0 15px; /* 缩小左右内边距 */
+    padding: 0 0px; /* 缩小左右内边距 */
   }
   .search-icon {
     margin: 0 16px; /* 缩小搜索图标间距 */
