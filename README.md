@@ -1,4 +1,4 @@
-# Loomicon
+# LOOMICON
 一个轻量的图标资源展示网站，提供直观的图标浏览与管理功能。
 
 ## 🌐 网站地址
@@ -9,12 +9,35 @@
 
 ### 方式1：Python脚本（跨平台，推荐）
 适用于 Windows/Mac/Linux 系统，可自动运行JSON更新脚本 + 推送代码：
+#### 第一步：快速进入本地仓库根目录
+##### Windows 快速进入方式（二选一）：
+1. **文件管理器直接开终端**（推荐）：
+   - 打开文件管理器，找到你的Loomicon仓库文件夹（如 `D:\个人文件\web\loomicon-git`）；
+   - 在文件夹地址栏输入 `cmd` 并按回车，直接打开终端且自动定位到该目录；
+2. **终端手动切换路径**：
+   ```bash
+   # 示例：仓库在D盘的web文件夹下
+   cd /d D:\个人文件\web\loomicon-git
+   ```
+
+##### Mac 快速进入方式（二选一）：
+1. **访达直接开终端**（推荐）：
+   - 打开访达，找到你的Loomicon仓库文件夹（如 `~/Desktop/loomicon`）；
+   - 右键点击文件夹 → 选择「新建终端位于文件夹」（或按 `Option + 右键` 调出该选项）；
+2. **终端手动切换路径**：
+   ```bash
+   # 示例：仓库在桌面的loomicon文件夹下
+   cd ~/Desktop/loomicon
+   ```
+
+#### 第二步：执行自动化脚本
 ```bash
-# 进入项目根目录
-cd 你的本地仓库路径/loomicon
-# 执行自动化脚本
+# Windows
 python auto_update_and_push.py
+# Mac/Linux
+python3 auto_update_and_push.py
 ```
+
 **功能说明**：
 1. 自动运行 `generate-icon-list.py` 更新 `icon-list.json`；
 2. 先拉取GitHub远程最新代码（避免冲突）；
@@ -39,9 +62,10 @@ git config --list
 ### 2. Python 环境配置
 确保本地安装Python（3.8+ 版本），并验证环境：
 ```bash
-# 检查Python版本
-python --version  # Windows
-python3 --version # Mac/Linux
+# Windows 检查Python版本
+python --version
+# Mac/Linux 检查Python版本
+python3 --version
 # 无需额外安装依赖（脚本仅使用Python内置库）
 ```
 
@@ -70,8 +94,17 @@ python3 --version # Mac/Linux
 - 确认Git已配置正确的账号信息（用户名/邮箱）；
 - Windows用户可尝试以管理员身份运行bat/终端。
 
+### Q5：终端提示「cd: 没有那个文件或目录」（Mac）/「系统找不到指定路径」（Windows）？
+- 原因：输入的仓库路径错误（如拼写错误、文件夹位置变动）；
+- 解决：通过访达/文件管理器确认仓库准确路径，重新执行cd命令，或使用「直接开终端」的方式。
+
 ## 📝 开发说明
 本网站（HTML/CSS/JS）及所有自动化提交脚本（`auto_update_and_push.py`、`push.bat` 等）均由豆包全程编写完成。
 
 ---
 如果遇到其他问题，可查看项目提交记录或联系开发者。
+
+### 总结
+1. 补充了Windows/Mac「文件管理器/访达直接开终端」（最便捷）和「终端手动cd」两种快速进入仓库路径的方法，新手易操作；
+2. 新增Q5解决路径输入错误的常见问题，覆盖新手高频踩坑点；
+3. 所有补充内容贴合原有README结构，无冗余，保持简洁易懂的风格。
