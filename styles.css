@@ -418,9 +418,12 @@ input[type="text"] {
 
 .icon-card:hover {
   border-color: rgba(245, 179, 44, 0.4);
-  transform: translateY(-8px);
+  /* 👇 替换原有translateY，改成scale放大 */
+  transform: scale(1.5); /* 2倍放大，3倍则写 scale(3)，建议先试1.5倍更自然 */
   box-shadow: 0 16px 40px rgba(245, 179, 44, 0.1);
   background: rgba(255, 255, 255, 0.95);
+  /* 👇 新增这一行：悬浮时提高层级，避免被其他卡片遮挡 */
+  z-index: 10;
 }
 
 .icon-svg {
@@ -431,13 +434,21 @@ input[type="text"] {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: none;
+  /* 👇 删除原有 transition: none; 新增这行：图标过渡动画 */
+  transition: transform 0.4s ease;
+  /* 👇 新增：图标缩放原点居中 */
+  transform-origin: center center;
 }
 
 .icon-svg svg {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* 👇 新增：卡片hover时，图标额外放大2倍（叠加卡片2倍=4倍） */
+.icon-card:hover .icon-svg {
+  transform: scale(1.2);
 }
 
 .icon-name {
@@ -483,6 +494,13 @@ input[type="text"] {
   position: relative;
   overflow: hidden;
   margin: 0 2px;
+  /* 👇 新增：按钮缩放原点居中 */
+  transform-origin: center center;
+}
+
+/* 👇 新增：卡片hover时，按钮反向缩放0.5倍（抵消卡片2倍放大，保持原大小） */
+.icon-card:hover .icon-btn {
+  transform: scale(0.8);
 }
 
 .download-btn {
@@ -508,12 +526,14 @@ input[type="text"] {
 .icon-btn svg {
   width: 18px;
   height: 18px;
-  transition: all 0.2s ease;
+  /* 👇 删除原有 transition: all 0.2s ease; 和 hover 时的 scale(1.1)，避免冲突 */
+  /* transition: all 0.2s ease; */
 }
 
-.icon-btn:hover svg {
+/* 👇 删掉这行：避免按钮内svg额外放大 */
+/* .icon-btn:hover svg {
   transform: scale(1.1);
-}
+} */
 
 .empty-state {
   grid-column: 1/-1;
@@ -646,10 +666,25 @@ footer {
     justify-content: center; /* 居中排列，更符合手机端视觉 */
   }
   .icon-card {
-    width: 90px; /* 缩小卡片尺寸 */
-    height: 90px;
-    margin: 5px; /* 缩小卡片外边距 */
-    padding: 8px 0;
+    width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 179, 44, 0.1);
+  border-radius: 0.8rem;
+  position: relative;
+  transition: all 0.4s ease; /* 原有过渡动画保留，放大更流畅 */
+  overflow: hidden;
+  margin: 10px;
+  padding: 10px 0;
+  /* 👇 新增这一行：放大原点设为卡片中心 */
+  transform-origin: center center;
+  /* 👇 新增这一行：提高层级，避免放大后被遮挡 */
+  z-index: 1;
   }
   .icon-svg {
     width: 22px; /* 轻微缩小图标尺寸 */
