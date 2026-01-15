@@ -51,6 +51,9 @@ python3 auto_update_and_push.py
 - 自动拉取远程最新代码 → 提交（备注格式：`[Loomicon] 更新 - 时间戳`） → 推送；
 - 无需打开终端，适合Windows用户快速操作。
 
+## 📝 环境配置
+https://github.com/aglt2w/loomicon/wiki/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97
+
 ## 📝 开发说明
 本网站（HTML/CSS/JS）及所有自动化提交脚本（`auto_update_and_push.py`、`push.bat` 等）均由豆包辅助编写完成。
 
