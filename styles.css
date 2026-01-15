@@ -689,6 +689,7 @@ footer {
   }
   .search-container {
     height: 60px; /* 降低搜索框高度 */
+    justify-content: center; /* 搜索框居中 */
   }
   .custom-select-wrapper {
     width: 120px; /* 缩小分类选择器宽度 */
@@ -698,13 +699,16 @@ footer {
     font-size: 14px; /* 缩小选择器文字 */
   }
   .search-input {
-    font-size: 14px; /* 缩小搜索输入框文字 */
-    padding: 0 0px; /* 缩小左右内边距 */
+    font-size: 14px; 
+    padding: 0 20px 0 0px; /* 核心：左侧padding从20px→8px，右侧保留20px */
+    width: 100%; /* 占满容器宽度 */
+    text-align: left; /* 文字左对齐 */
   }
   .search-icon {
     margin: 0 16px; /* 缩小搜索图标间距 */
     width: 20px;
     height: 20px;
+    flex-shrink: 0; /* 防止图标被压缩 */
   }
   .select-option {
     height: 60px; /* 适配搜索框高度，调整选项行高 */
@@ -806,6 +810,10 @@ footer {
   footer {
     padding: 1.5rem 1rem; /* 缩小页脚内边距 */
     font-size: 0.8rem; /* 缩小页脚文字 */
+  }
+  /* 手机端隐藏分类下拉功能 */
+  .custom-select-wrapper {
+  display: none !important; /* 彻底隐藏分类选择器 */
   }
 }
 
