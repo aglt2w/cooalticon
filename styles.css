@@ -387,37 +387,50 @@ input[type="text"] {
 
 /* 核心新增：内层对齐容器（标题和网格共用） */
 .icons-inner-container {
-  max-width: 1200px; /* 和图标网格max-width一致 */
-  margin: 0 auto; /* 居中，和图标网格对齐 */
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
+  display: block; /* 取消全局Grid，改为块级 */
+  padding: 0;
 }
 
-/* 分类标题 - 基于内层容器左对齐（全屏幕精准适配） */
+/* 每个分类的容器：确保标题和网格宽度一致 */
+.category-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1200px; /* 和图标网格宽度一致 */
+}
+
+/* 分类标题 - 绝对精准对齐图标卡片左边缘 */
 .category-title {
   font-size: 1rem;
   color: #111827;
   font-weight: 600;
-  margin: 2rem 0 1.5rem 0;
+  margin: 2rem 0 1.5rem 0 !important;
   border-left: none;
-  padding-left: 10px !important; /* 仅内层容器内的10px微调 */
-  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-left: calc((100% - 1200px) / 2) !important; /* 动态左间距，和网格对齐 */
   margin-right: 0 !important;
   text-align: left;
   width: 100%;
+  box-sizing: border-box;
 }
 
-/* 图标网格 - 放在内层容器里，和标题共享对齐基准 */
+/* 图标网格 - 取消额外margin，确保视觉左边缘和计算值一致 */
 .icon-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 120px);
+  display: grid !important; /* 恢复Grid */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 自动排多列 */
   gap: 2rem;
-  justify-content: center; /* 保留卡片居中，不改动 */
+  justify-content: start;
   width: 100%;
-  max-width: 1200px; /* 保留原有最大宽度 */
-  margin: 0 auto; /* 保留原有居中 */
+  max-width: 1200px;
+  margin: 0 auto !important; /* 网格居中 */
+  box-sizing: border-box;
 }
 
+/* 图标卡片 - 清空额外margin，确保网格计算精准 */
 .icon-card {
   width: 120px;
   height: 120px;
@@ -432,9 +445,7 @@ input[type="text"] {
   position: relative;
   transition: all 0.4s ease;
   overflow: hidden;
-  /* 👇 注释掉原有阴影，暂时去掉 */
-  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); */
-  margin: 10px;
+  margin: 0 !important; /* 关键：删除原有10px margin，避免视觉偏移 */
   padding: 10px 0;
 }
 

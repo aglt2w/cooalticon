@@ -112,24 +112,38 @@ function renderIcons(data) {
         if (!grouped[icon.category]) grouped[icon.category] = [];
         grouped[icon.category].push(icon);
     });
-    iconContainer.innerHTML = '';
+    
+    // 核心修改1：获取内层对齐容器（不再往iconContainer里加内容）
+    const innerContainer = document.querySelector('.icons-inner-container');
+    innerContainer.innerHTML = ''; // 清空内层容器
+    
+    // 核心修改2：遍历分类，每个分类生成独立的wrapper，直接插入到innerContainer
     Object.keys(grouped).forEach(cat => {
         const title = document.createElement('h2');
         title.className = 'category-title';
         title.textContent = cat;
+        
         const grid = document.createElement('div');
         grid.className = 'icon-grid';
+        
         grouped[cat].forEach(icon => {
             const card = createIconCard(icon);
             grid.appendChild(card);
         });
-        const wrapper = document.createElement('div');
-        wrapper.appendChild(title);
-        wrapper.appendChild(grid);
-        iconContainer.appendChild(wrapper);
+        
+        // 每个分类的标题+网格包裹成一个子容器（适配Grid布局）
+        const categoryWrapper = document.createElement('div');
+        categoryWrapper.className = 'category-wrapper'; // 新增分类容器类名
+        categoryWrapper.appendChild(title);
+        categoryWrapper.appendChild(grid);
+        
+        // 核心修改3：插入到innerContainer（Grid布局容器），而非iconContainer
+        innerContainer.appendChild(categoryWrapper);
     });
+    
+    // 空状态处理（插入到innerContainer）
     if (Object.keys(grouped).length === 0) {
-        iconContainer.innerHTML = '<div class="empty-state">暂无匹配图标</div>';
+        innerContainer.innerHTML = '<div class="empty-state">暂无匹配图标</div>';
     }
 }
 
