@@ -385,25 +385,23 @@ input[type="text"] {
   box-sizing: border-box; /* 新增：统一盒模型 */
 }
 
-/* 核心新增：内层对齐容器（标题和网格共用） */
+/* ========== 核心对齐样式（全宽度适配） ========== */
 .icons-inner-container {
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  display: block; /* 取消全局Grid，改为块级 */
-  padding: 0;
+  padding: 0 20px; /* 小屏兜底内边距 */
+  margin: 0 auto;
 }
 
-/* 每个分类的容器：确保标题和网格宽度一致 */
 .category-wrapper {
   width: 100%;
-  box-sizing: border-box;
+  max-width: 1200px;
   margin: 0 auto;
-  max-width: 1200px; /* 和图标网格宽度一致 */
+  box-sizing: border-box;
+  position: relative; /* 为JS计算提供基准 */
 }
 
-/* 分类标题 - 绝对精准对齐图标卡片左边缘 */
+/* 分类标题：默认无偏移，由JS动态赋值 */
 .category-title {
   font-size: 1rem;
   color: #111827;
@@ -411,22 +409,20 @@ input[type="text"] {
   margin: 2rem 0 1.5rem 0 !important;
   border-left: none;
   padding-left: 0 !important;
-  margin-left: calc((100% - 1200px) / 2) !important; /* 动态左间距，和网格对齐 */
-  margin-right: 0 !important;
+  margin-left: 0 !important; /* JS动态修改这个值 */
   text-align: left;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* 图标网格 - 取消额外margin，确保视觉左边缘和计算值一致 */
+/* 图标网格：保持自适应+居中 */
 .icon-grid {
-  display: grid !important; /* 恢复Grid */
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* 自动排多列 */
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 2rem;
-  justify-content: start;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto !important; /* 网格居中 */
+  margin: 0 auto !important;
   box-sizing: border-box;
 }
 
@@ -568,16 +564,17 @@ input[type="text"] {
   transform: scale(1.1);
 } */
 
+/* ========== 空状态适配 ========== */
 .empty-state {
-  grid-column: 1/-1;
   text-align: center;
   padding: 2rem;
   color: #64748b;
   font-size: 1.1rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
+  margin: 2rem auto;
+  max-width: 1200px;
 }
-
 /* 页脚样式 */
 footer {
   background-color: #f9fafb;

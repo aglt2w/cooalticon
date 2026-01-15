@@ -258,3 +258,78 @@ function resetSelect() {
     });
 
 }
+
+// ========== 新增：实时对齐标题和图标网格 ==========
+function syncTitleAndGrid() {
+  // 获取所有分类容器
+  const categoryWrappers = document.querySelectorAll('.category-wrapper');
+  
+  categoryWrappers.forEach(wrapper => {
+    const title = wrapper.querySelector('.category-title');
+    const grid = wrapper.querySelector('.icon-grid');
+    if (!title || !grid) return;
+
+    // 计算网格的实际左偏移（相对分类容器）
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const gridRect = grid.getBoundingClientRect();
+    // 核心：标题的margin-left = 网格左边缘 - 容器左边缘
+    const leftOffset = gridRect.left - wrapperRect.left;
+    
+    // 赋值给标题（仅在偏移>0时生效，避免负数）
+    title.style.marginLeft = `${Math.max(0, leftOffset)}px`;
+  });
+}
+
+// ========== 修改初始化函数：添加对齐逻辑 ==========
+(async function init() {
+  await loadIconData();
+  allCategories = ['全部图标', ...new Set(iconData.map(item => item.category))];
+  renderSelectOptions();
+  renderIcons(iconData);
+  bindEvents();
+  syncTitleAndGrid(); // 页面加载时对齐
+})();
+
+// ========== 绑定窗口resize事件：实时对齐 ==========
+window.addEventListener('resize', function() {
+  syncTitleAndGrid(); // 宽度变化时重新对齐
+});
+
+// ========== 补充：筛选/搜索后重新对齐 ==========
+// 修改filterByCategory函数
+function filterByCategory(cat) {
+  const filtered = cat === '全部图标' ? iconData : iconData.filter(icon => icon.category === cat);
+  renderIcons(filtered);
+  syncTitleAndGrid(); // 筛选后重新对齐
+}
+
+// 修改searchInput的input事件（在bindEvents里）
+function bindEvents() {
+    selectBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        selectWrapper.classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+        selectWrapper.classList.remove('open');
+    });
+    searchInput.addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+        renderIcons(filtered);
+        resetSelect();
+        syncTitleAndGrid(); // 搜索后重新对齐
+        if (this.value.trim() === '') {
+            this.setAttribute('placeholder', '搜索图标...');
+        } else {
+            this.removeAttribute('placeholder');
+        }
+    });
+    searchIcon.addEventListener('click', function() {
+        searchInput.focus();
+        const keyword = searchInput.value.toLowerCase().trim();
+        const filtered = iconData.filter(icon => icon.name.toLowerCase().includes(keyword));
+        renderIcons(filtered);
+        resetSelect();
+        syncTitleAndGrid(); // 点击搜索后重新对齐
+    });
+}
