@@ -723,7 +723,7 @@ footer {
   
   /* 5. 图标网格区域适配（核心修复：一行4个+正方形卡片） */
   .icon-grid-section {
-  padding: 0 20px 2rem; /* 去掉大间距 */
+  padding: 0 8px 2rem; /* 去掉大间距 */
   }
   .icons-inner-container {
     max-width: 100%; /* 手机端占满宽度 */
