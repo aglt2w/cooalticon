@@ -616,7 +616,7 @@ footer {
 
 /* ===================== 手机端适配（768px以下，参考remixicon.com） ===================== */
 @media (max-width: 768px) {
-  /* 1. 头部适配 */
+  /* 1. 头部适配（保留你原有所有样式） */
   header {
     padding: 0.8rem 1rem; /* 缩小上下内边距 */
   }
@@ -634,7 +634,7 @@ footer {
     gap: 1rem; /* 缩小导航链接间距 */
   }
 
-  /* 2. 标题横幅适配 */
+  /* 2. 标题横幅适配（保留你原有所有样式） */
   .title-banner .banner-right-wrap {
     height: 36px;
     padding-right: 16px;
@@ -654,7 +654,7 @@ footer {
     line-height: 36px;
   }
 
-  /* 3. Hero区域适配 */
+  /* 3. Hero区域适配（保留你原有所有样式） */
   .hero {
     padding: 3rem 1rem 4rem; /* 大幅缩小上下内边距，适配手机屏幕 */
     min-height: 240px; /* 降低最小高度 */
@@ -681,7 +681,7 @@ footer {
     font-size: 1.2rem; /* 缩小功能项图标 */
   }
 
-  /* 4. 搜索区域适配 */
+  /* 4. 搜索区域适配（保留你原有所有样式） */
   .search-section {
     padding: 0 20px; /* 去掉大间距 */
     margin: -1.5rem auto 2rem; /* 调整上下间距 */
@@ -712,7 +712,7 @@ footer {
     font-size: 14px;
   }
 
-  /* ========== 手机端核心修改：显示SVG图标，隐藏“全部图标”文字 ========== */
+  /* ========== 手机端核心修改：显示SVG图标，隐藏“全部图标”文字（保留） ========== */
   .select-option[data-cat="全部图标"] .option-icon {
     display: block !important;
   }
@@ -720,28 +720,38 @@ footer {
     display: none !important;
   }
 
-  /* 5. 图标网格区域适配 */
+  
+  /* 5. 图标网格区域适配（核心修复：一行4个+正方形卡片） */
   .icon-grid-section {
-    padding: 0 20px 2rem; /* 去掉大间距 */
+  padding: 0 20px 2rem; /* 去掉大间距 */
   }
-  /* 手机端内层容器适配 */
   .icons-inner-container {
     max-width: 100%; /* 手机端占满宽度 */
   }
-  /* 手机端分类标题适配 */
   .category-title {
     font-size: 0.9rem;
     margin: 1.5rem 0 1rem 0;
     padding-left: 10px !important; /* 保留10px微调 */
   }
-  .icon-grid {
-    grid-template-columns: repeat(auto-fill, 90px); /* 缩小图标卡片宽度，适配手机 */
-    gap: 1rem; /* 缩小网格间距 */
-    justify-content: center; /* 保留居中 */
+  
+   .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 强制4列 */
+    gap: 10px; /* 间距适中，避免挤 */
+    justify-content: center;
+    padding: 0 4px;
   }
-  .icon-card {
-    width: 120px;
-  height: 120px;
+  
+  /* 👇 核心修复：正方形卡片+整体缩小（关键：aspect-ratio保证正方形） */
+.icon-card {
+  /* 正方形核心：宽高比1:1，不管宽度多少都是正方形 */
+  aspect-ratio: 1 / 1; 
+  /* 整体缩小：最大宽度80px（适配4列），宽度自适应网格，高度跟着宽度走 */
+  width: 100%;
+  max-width: 80px; 
+  /* 取消固定height，由aspect-ratio自动匹配宽度，保证正方形 */
+  height: auto; 
+  /* 保留你原有所有样式 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -751,52 +761,55 @@ footer {
   border: 1px solid rgba(245, 179, 44, 0.1);
   border-radius: 0.8rem;
   position: relative;
-  transition: all 0.4s ease; /* 原有过渡动画保留，放大更流畅 */
+  transition: all 0.4s ease;
   overflow: hidden;
-  margin: 10px;
-  padding: 10px 0;
-  /* 👇 新增这一行：放大原点设为卡片中心 */
+  margin: 0 auto; /* 居中，去掉原有margin */
+  padding: 8px 0; /* 内部padding缩小，适配小卡片 */
   transform-origin: center center;
-  /* 👇 新增这一行：提高层级，避免放大后被遮挡 */
   z-index: 1;
-  }
-  .icon-svg {
-    width: 22px; /* 轻微缩小图标尺寸 */
-    height: 22px;
-    margin-bottom: 8px;
-  }
-  .icon-name {
-    font-size: 12px; /* 缩小图标名称字体 */
-  }
-  .icon-actions {
-    bottom: -15px; /* 调整操作按钮初始位置 */
-  }
-  .icon-card:hover .icon-actions {
-    bottom: 8px; /* 调整hover后位置 */
-  }
-  .icon-btn {
-    width: 32px; /* 缩小操作按钮尺寸 */
-    height: 32px;
-  }
-  .icon-btn svg {
-    width: 16px; /* 缩小按钮内图标 */
-    height: 16px;
-  }
-
-  /* 6. 空状态适配 */
+}
+  
+  /* 👇 适配缩小后的卡片，调整内部元素尺寸 */
+.icon-svg {
+  width: 20px; /* 比之前22px略小，适配80px正方形 */
+  height: 20px;
+  margin-bottom: 6px;
+}
+.icon-name {
+  font-size: 11px; /* 略小，适配小卡片 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px; /* 限制文字宽度，避免超出 */
+}
+.icon-actions {
+  bottom: -12px; /* 调整按钮初始位置，适配小卡片 */
+}
+.icon-card:hover .icon-actions {
+  bottom: 6px; /* hover后位置微调 */
+}
+.icon-btn {
+  width: 28px; /* 按钮缩小 */
+  height: 28px;
+}
+.icon-btn svg {
+  width: 14px; /* 按钮内图标缩小 */
+  height: 14px;
+}
+  /* 6. 空状态适配（保留） */
   .empty-state {
     padding: 1.5rem 1rem; /* 缩小空状态内边距 */
     font-size: 1rem; /* 缩小文字 */
   }
 
-  /* 7. 页脚适配 */
+  /* 7. 页脚适配（保留） */
   footer {
     padding: 1.5rem 1rem; /* 缩小页脚内边距 */
     font-size: 0.8rem; /* 缩小页脚文字 */
   }
 }
 
-/* 导航链接显示逻辑（补充） */
+/* 导航链接显示逻辑（补充，保留你原有样式） */
 @media (min-width: 768px) {
   .nav-links {
     display: flex;
