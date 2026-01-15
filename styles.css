@@ -293,8 +293,12 @@ header {
 .custom-select-wrapper.open .custom-select-list {
   height: auto;
   opacity: 1;
+  /* 修复：新增max-height，避免选项过多溢出 */
+  /* max-height: 300px; */
+  overflow-y: auto;
 }
 
+/* ========== 新增：下拉选项图标/文字样式（适配手机端替换） ========== */
 .select-option {
   padding: 0 16px;
   height: 72px;
@@ -308,6 +312,24 @@ header {
   border-radius: 8px;
   margin: 4px 8px;
   background: transparent;
+  /* 新增：flex布局，适配图标+文字 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 全部图标选项的SVG图标容器 */
+.option-icon {
+  display: none; /* 大屏默认隐藏 */
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0; /* 防止图标压缩 */
+  color: #374151;
+}
+
+/* 全部图标选项的文字容器 */
+.option-text {
+  display: inline-block;
 }
 
 .custom-select-wrapper.open .select-option {
@@ -318,12 +340,20 @@ header {
 .select-option:hover {
   background-color: rgba(243, 244, 246, 0.6);
   color: #F5B32C;
+  /* 新增：hover时图标也变色 */
+}
+.select-option:hover .option-icon {
+  color: #F5B32C;
 }
 
 .select-option.active {
   background-color: transparent;
   color: #F5B32C;
   font-weight: 500;
+  /* 新增：active时图标也变色 */
+}
+.select-option.active .option-icon {
+  color: #F5B32C;
 }
 
 .search-input {
@@ -680,6 +710,14 @@ footer {
     height: 60px; /* 适配搜索框高度，调整选项行高 */
     line-height: 60px;
     font-size: 14px;
+  }
+
+  /* ========== 手机端核心修改：显示SVG图标，隐藏“全部图标”文字 ========== */
+  .select-option[data-cat="全部图标"] .option-icon {
+    display: block !important;
+  }
+  .select-option[data-cat="全部图标"] .option-text {
+    display: none !important;
   }
 
   /* 5. 图标网格区域适配 */
