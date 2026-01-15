@@ -27,6 +27,8 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 160px;
+  width: 100%; /* 新增：确保容器占满宽度 */
+  box-sizing: border-box; /* 新增：避免内边距超出宽度 */
 }
 
 /* 左上角Logo - 24px尺寸 + 保留原有文字样式 + 不影响底色 */
@@ -37,7 +39,7 @@ header {
   font-weight: 300;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-left: -30px;
+  margin-left: 0 !important; /* 关键修改：移除-30px偏移，解决大屏左偏 */
   /* Logo图标：严格24px */
   background: url(./assets/logo.svg) left center no-repeat; /* 路径按实际调整 */
   background-size: 24px 24px !important; /* 强制24px，不被覆盖 */
@@ -49,11 +51,12 @@ header {
   background-color: transparent !important;
 }
 
-/* 右上角GitHub按钮样式 - 完全保留 */
+/* 右上角GitHub按钮样式 - 精准对齐搜索框右边缘 */
 .header-right {
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0 !important; /* 关键：移除原有padding，避免偏移 */
+  margin-right: 0 !important; /* 重置之前的12px偏移 */
 }
 
 .github-btn {
@@ -67,6 +70,7 @@ header {
   text-decoration: none;
   transition: background-color 0.2s ease;
   background-color: transparent;
+  margin-right: 0; /* 精准匹配搜索框右边缘 */
 }
 
 .github-btn:hover {
@@ -213,6 +217,7 @@ header {
   top: 24px;
   z-index: 90;
   width: 100%;
+  box-sizing: border-box; /* 新增：统一盒模型 */
 }
 
 .search-container {
@@ -377,23 +382,33 @@ input[type="text"] {
   margin: 0 auto;
   padding: 0 160px 4rem;
   width: 100%;
+  box-sizing: border-box; /* 新增：统一盒模型 */
 }
 
+/* 分类标题 - 精准和图标卡片左对齐（不改动卡片布局） */
 .category-title {
   font-size: 1rem;
   color: #111827;
   font-weight: 600;
   margin: 2rem 0 1.5rem 0;
-  padding-left: 0.5rem;
   border-left: none;
+  /* 核心修复：简化对齐逻辑，和图标网格同宽+左对齐+10px内边距 */
+  max-width: 1200px !important; /* 和icon-grid的max-width一致 */
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 20px !important; /* 保留你要的10px微调 */
+  text-align: left;
+  width: 100%;
 }
 
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 120px);
   gap: 2rem;
-  justify-content: center; /* 🔵 改成center，网格居中对齐 */
+  justify-content: center; /* 保留卡片居中，不改动 */
   width: 100%;
+  max-width: 1200px; /* 保留原有最大宽度 */
+  margin: 0 auto; /* 保留原有居中 */
 }
 
 .icon-card {
@@ -656,14 +671,16 @@ footer {
   .icon-grid-section {
     padding: 0 20px 2rem; /* 去掉大间距 */
   }
+  /* 手机端分类标题适配 */
   .category-title {
-    font-size: 0.9rem; /* 缩小分类标题 */
-    margin: 1.5rem 0 1rem 0; /* 缩小上下间距 */
+    font-size: 0.9rem;
+    margin: 1.5rem 0 1rem 0;
+    padding-left: 20px !important; /* 手机端匹配内边距 */
   }
   .icon-grid {
     grid-template-columns: repeat(auto-fill, 90px); /* 缩小图标卡片宽度，适配手机 */
     gap: 1rem; /* 缩小网格间距 */
-    justify-content: center; /* 居中排列，更符合手机端视觉 */
+    justify-content: center; /* 保留居中 */
   }
   .icon-card {
     width: 120px;
