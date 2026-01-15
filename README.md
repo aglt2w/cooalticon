@@ -31,12 +31,12 @@
    ```
 
 #### 第二步：执行自动化脚本
-# Windows
+##### Windows
 ```bash
 python auto_update_and_push.py
 ```
 
-# Mac/Linux
+##### Mac/Linux
 ```bash
 python3 auto_update_and_push.py
 ```
