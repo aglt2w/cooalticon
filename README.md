@@ -52,7 +52,7 @@ python3 auto_update_and_push.py
 - 无需打开终端，适合Windows用户快速操作。
 
 ## ⚙️ 环境配置
-https://github.com/aglt2w/loomicon/wiki/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97
+[环境配置指南](https://github.com/aglt2w/loomicon/wiki/Configuration)
 
 
 ## 📝 开发说明
