@@ -85,7 +85,9 @@ body.admin-page {
   border-color: #F5B32C;
   box-shadow: 0 0 0 3px rgba(245, 179, 44, 0.18);
 }
-.admin-login-error {
+/* 注意：必须用 .admin-login-card 前缀提高特异性，
+   否则会被上面的 `.admin-login-card p { margin: 0 }` 覆盖 */
+.admin-login-card p.admin-login-error {
   margin: 0 0 12px;
   min-height: 18px;
   color: #dc3545;
@@ -108,8 +110,9 @@ body.admin-page {
 }
 .admin-login-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(245, 179, 44, 0.32); }
 .admin-login-btn:active { transform: translateY(0); }
-.admin-login-hint {
-  margin: 28px 0 0;
+/* 注意：同样需要前缀提高特异性，压过 .admin-login-card p 的 margin:0 */
+.admin-login-card p.admin-login-hint {
+  margin: 15px 0 0;
   color: #94a3b8;
   font-size: 12px;
   line-height: 1.6;
@@ -280,6 +283,20 @@ body.admin-page {
   border-color: #F5B32C;
   box-shadow: 0 0 0 3px rgba(245, 179, 44, 0.18);
 }
+/* 下拉框：去掉原生箭头（Chrome 原生箭头固定贴边、不受 padding 影响），改用自绘 SVG 箭头 */
+.admin-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 12px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.admin-select:hover { border-color: #cbd5e1; }
 .admin-input-search { width: 200px; }
 .admin-textarea {
   height: auto;
@@ -318,8 +335,8 @@ body.admin-page {
   border-color: #F5B32C;
   color: #1a2b48;
   box-shadow: 0 4px 12px rgba(245, 179, 44, 0.25);
-  padding-left: 36px;
-  padding-right: 36px;
+  padding-left: 44px;
+  padding-right: 44px;
 }
 .admin-btn-primary:hover { background: #e0a21a; border-color: #e0a21a; }
 .admin-btn-danger {
@@ -329,12 +346,82 @@ body.admin-page {
 }
 .admin-btn-danger:hover { background: rgba(220, 53, 69, 0.08); }
 
-/* ========== 图标卡片网格 ========== */
+/* ========== 图标卡片网格（按分类分组） ========== */
 .admin-card-grid {
+  display: block;
+}
+.admin-cat-group { margin-bottom: 32px; }
+.admin-cat-group:last-child { margin-bottom: 0; }
+.admin-cat-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+}
+.admin-cat-group-head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2b48;
+}
+.admin-cat-group-head .count {
+  font-size: 12px;
+  color: #94a3b8;
+}
+.admin-cat-group-head .hint {
+  margin-left: auto;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+.admin-cat-body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 16px;
+  min-height: 72px;
+  padding: 2px;
+  border-radius: 14px;
 }
+.admin-cat-body.drop-empty {
+  outline: 2px dashed rgba(245, 179, 44, 0.55);
+  outline-offset: 4px;
+  background: rgba(245, 179, 44, 0.05);
+}
+.admin-icon-card[draggable="true"] { cursor: grab; }
+.admin-icon-card.dragging { opacity: 0.4; cursor: grabbing; }
+.admin-icon-card.insert-before::before,
+.admin-icon-card.insert-after::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 2px;
+  background: #F5B32C;
+  box-shadow: 0 0 8px rgba(245, 179, 44, 0.6);
+}
+.admin-icon-card.insert-before::before { left: -10px; }
+.admin-icon-card.insert-after::after { right: -10px; }
+.admin-icon-order {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(245, 179, 44, 0.16);
+  color: #b5760e;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  line-height: 1;
+}
+.admin-card-grid.no-drag .admin-icon-card { cursor: default; }
 .admin-icon-card {
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(8px);
@@ -376,13 +463,6 @@ body.admin-page {
   max-width: 100%;
   line-height: 1.4;
   font-weight: 500;
-}
-.admin-icon-card .admin-icon-cat-tag {
-  font-size: 11px;
-  color: #64748b;
-  background: rgba(229, 231, 235, 0.6);
-  padding: 2px 8px;
-  border-radius: 999px;
 }
 .admin-icon-card .admin-icon-actions {
   display: flex;

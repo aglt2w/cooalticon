@@ -30,7 +30,12 @@
       <h2>LOOM ICON · 后台</h2>
       <p>请输入管理员密码进入</p>
     </div>
-    <input type="password" class="admin-login-input" id="admin-pwd" placeholder="管理员密码" autocomplete="off">
+    <!-- 隐藏用户名占位：让 Chrome 把「管理员密码」存成独立的 admin 账户条目，
+         避免和公开端解锁密码在同一个站点下互相覆盖（不能 display:none，否则浏览器会忽略） -->
+    <input type="text" id="admin-username" value="admin"
+           autocomplete="username" readonly tabindex="-1" aria-hidden="true"
+           style="position:absolute;width:1px;height:1px;opacity:0;border:0;padding:0;pointer-events:none;">
+    <input type="password" class="admin-login-input" id="admin-pwd" placeholder="管理员密码" autocomplete="current-password">
     <p class="admin-login-error" id="admin-pwd-error"></p>
     <button class="admin-login-btn" id="admin-pwd-submit">进入后台</button>
     <p class="admin-login-hint">忘记密码？在 <code>supabase/init.sql</code> 里用 <code>openssl dgst -sha256</code> 重新生成 hash 并写入 <code>app_settings</code>。</p>
@@ -95,7 +100,7 @@
         <div class="admin-view-head">
           <div>
             <h1>图标管理</h1>
-            <p>共 <span id="icons-total">0</span> 个图标 · 选择分类筛选</p>
+            <p>共 <span id="icons-total">0</span> 个图标 · 按分类分组，拖动卡片排序（序号自动生成）</p>
           </div>
           <div class="admin-view-tools">
             <select class="admin-select" id="icons-filter-cat">
@@ -224,10 +229,6 @@
     <div class="admin-form-row">
       <label>分类</label>
       <select class="admin-select" id="im-cat"></select>
-    </div>
-    <div class="admin-form-row">
-      <label>排序（数字越小越靠前）</label>
-      <input type="number" class="admin-input" id="im-order" value="0">
     </div>
     <div class="admin-form-row">
       <label>SVG 代码</label>

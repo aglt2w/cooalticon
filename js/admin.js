@@ -140,12 +140,13 @@
   }
 
   function renderFilters() {
+    const realCats = categories.filter((c) => !isPseudoCat(c));
     // 图标管理筛选
     const filterCat = $('#icons-filter-cat');
     if (filterCat) {
       const cur = filterCat.value;
       filterCat.innerHTML = '<option value="">全部分类</option>' +
-        categories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+        realCats.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
       if (cur) filterCat.value = cur;
     }
     // 批量上传分类
@@ -153,20 +154,25 @@
     if (uploadCat) {
       const cur = uploadCat.value;
       uploadCat.innerHTML = '<option value="">选择分类...</option>' +
-        categories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+        realCats.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
       if (cur) uploadCat.value = cur;
     }
     // 图标编辑弹窗分类下拉
     const imCat = $('#im-cat');
     if (imCat) {
       const cur = imCat.value;
-      imCat.innerHTML = categories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+      imCat.innerHTML = realCats.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
       if (cur) imCat.value = cur;
     }
   }
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  // 「全部图标」只是公开端的集合概念，不是真实分类，后台不作为分组/选项展示
+  function isPseudoCat(c) {
+    return c.slug === 'all' || c.name === '全部图标';
   }
 
   // ============== 图标管理 ==============
@@ -187,24 +193,51 @@
     $('#icons-total').textContent = icons.length;
     if (!list.length) {
       grid.innerHTML = '';
+      empty.textContent = icons.length ? '没有匹配的图标' : '暂无图标';
       empty.hidden = false;
       return;
     }
     empty.hidden = true;
-    grid.innerHTML = list.map((i) => {
-      const cat = catById.get(i.category_id);
-      return `
-        <div class="admin-icon-card" data-id="${i.id}">
-          <div class="admin-icon-thumb">${i.svg}</div>
-          <div class="admin-icon-name">${escapeHtml(i.name)}</div>
-          <div class="admin-icon-cat-tag">${cat ? escapeHtml(cat.name) : '未分类'}</div>
-          <div class="admin-icon-actions">
-            <button class="admin-btn" data-act="edit" data-id="${i.id}">编辑</button>
-            <button class="admin-btn admin-btn-danger" data-act="del" data-id="${i.id}">删除</button>
-          </div>
+    const kw = ($('#icons-filter-search').value || '').trim();
+    // 搜索时禁止拖拽（可见子集排序会产生歧义）
+    grid.classList.toggle('no-drag', !!kw);
+
+    // 按分类分组：分类按 sort_order 排列，组内按 sort_order 排列
+    // 「全部图标」伪分类不占展示栏（万一部分类下有历史图标，仍兜底渲染出来便于管理）
+    const groups = categories
+      .filter((c) => !isPseudoCat(c) || list.some((i) => i.category_id === c.id))
+      .map((c) => ({
+        cat: c,
+        items: list
+          .filter((i) => i.category_id === c.id)
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)),
+      }));
+    // 分类已被删除的“孤儿”图标兜底展示
+    const orphans = list.filter((i) => !catById.has(i.category_id));
+    if (orphans.length) groups.push({ cat: null, items: orphans });
+
+    grid.innerHTML = groups.map(({ cat, items }) => `
+      <div class="admin-cat-group">
+        <div class="admin-cat-group-head">
+          <h3>${cat ? escapeHtml(cat.name) : '未分类'}</h3>
+          <span class="count">${items.length} 个</span>
+          ${kw ? '' : '<span class="hint">拖动卡片排序</span>'}
         </div>
-      `;
-    }).join('');
+        <div class="admin-cat-body" ${cat ? `data-cat-id="${cat.id}"` : ''}>
+          ${items.map((i, idx) => `
+            <div class="admin-icon-card" data-id="${i.id}" draggable="${cat ? 'true' : 'false'}">
+              <span class="admin-icon-order">${idx + 1}</span>
+              <div class="admin-icon-thumb">${i.svg}</div>
+              <div class="admin-icon-name">${escapeHtml(i.name)}</div>
+              <div class="admin-icon-actions">
+                <button class="admin-btn" data-act="edit" data-id="${i.id}">编辑</button>
+                <button class="admin-btn admin-btn-danger" data-act="del" data-id="${i.id}">删除</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
   }
 
   $('#icons-filter-cat').addEventListener('change', renderIconsList);
@@ -227,6 +260,101 @@
     }
   });
 
+  // ============== 拖拽排序（组内 / 跨组均可，序号自动重排） ==============
+  let dragId = null;
+  let dropInfo = null; // { catId, index }
+
+  function clearDropIndicators() {
+    $$('#icons-grid .insert-before').forEach((el) => el.classList.remove('insert-before'));
+    $$('#icons-grid .insert-after').forEach((el) => el.classList.remove('insert-after'));
+    $$('#icons-grid .drop-empty').forEach((el) => el.classList.remove('drop-empty'));
+    dropInfo = null;
+  }
+  function clearDraggingClass() {
+    $$('#icons-grid .dragging').forEach((el) => el.classList.remove('dragging'));
+  }
+
+  const gridEl = $('#icons-grid');
+  gridEl.addEventListener('dragstart', (e) => {
+    const card = e.target.closest('.admin-icon-card');
+    if (!card || card.getAttribute('draggable') !== 'true') { e.preventDefault(); return; }
+    dragId = card.dataset.id;
+    card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', dragId);
+  });
+  gridEl.addEventListener('dragend', () => {
+    dragId = null;
+    clearDraggingClass();
+    clearDropIndicators();
+  });
+  gridEl.addEventListener('dragover', (e) => {
+    if (!dragId) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    clearDropIndicators();
+
+    const card = e.target.closest('.admin-icon-card:not(.dragging)');
+    if (card) {
+      const body = card.closest('.admin-cat-body');
+      if (!body || !body.dataset.catId) return;
+      const rect = card.getBoundingClientRect();
+      const before = (e.clientX - rect.left) < rect.width / 2;
+      card.classList.add(before ? 'insert-before' : 'insert-after');
+      const ids = [...body.querySelectorAll('.admin-icon-card:not(.dragging)')].map((el) => el.dataset.id);
+      let idx = ids.indexOf(card.dataset.id);
+      if (idx < 0) idx = ids.length;
+      dropInfo = { catId: body.dataset.catId, index: before ? idx : idx + 1 };
+      return;
+    }
+    // 悬停在分组空白处 / 空分组 => 追加到该分类末尾
+    const body = e.target.closest('.admin-cat-body');
+    if (body && body.dataset.catId) {
+      body.classList.add('drop-empty');
+      dropInfo = {
+        catId: body.dataset.catId,
+        index: body.querySelectorAll('.admin-icon-card:not(.dragging)').length,
+      };
+    }
+  });
+  gridEl.addEventListener('drop', async (e) => {
+    if (!dragId) return;
+    e.preventDefault();
+    const info = dropInfo;
+    const srcId = dragId;
+    dragId = null;
+    clearDraggingClass();
+    clearDropIndicators();
+    if (info) await applyMove(srcId, info);
+  });
+
+  async function applyMove(sourceId, info) {
+    const src = icons.find((i) => i.id === sourceId);
+    if (!src) return;
+    const catIcons = icons
+      .filter((i) => i.category_id === info.catId && i.id !== sourceId)
+      .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    catIcons.splice(info.index, 0, src);
+    // 序号自动生成：组内 0..n-1
+    const changed = [];
+    catIcons.forEach((ic, idx) => {
+      if (ic.sort_order !== idx || ic.category_id !== info.catId) {
+        changed.push({ id: ic.id, category_id: info.catId, sort_order: idx });
+        ic.sort_order = idx;
+        ic.category_id = info.catId;
+      }
+    });
+    renderIconsList();
+    if (!changed.length) return;
+    try {
+      await LOOMICON_DB.adminAction(adminPwd, 'reorder_icons', { items: changed });
+      toast('排序已保存', 'success');
+    } catch (err) {
+      toast('排序保存失败：' + err.message, 'error');
+      await refreshAll();
+    }
+  }
+
   $('#btn-add-icon').addEventListener('click', () => openIconModal(null));
 
   function openIconModal(id) {
@@ -234,7 +362,6 @@
     const icon = id ? icons.find((x) => x.id === id) : null;
     $('#icon-modal-title').textContent = icon ? '编辑图标' : '新增图标';
     $('#im-name').value = icon ? icon.name : '';
-    $('#im-order').value = icon ? (icon.sort_order || 0) : 0;
     $('#im-svg').value = icon ? icon.svg : '';
     renderFilters();
     if (icon) $('#im-cat').value = icon.category_id;
@@ -262,12 +389,18 @@
   $('#im-save').addEventListener('click', async () => {
     const name = $('#im-name').value.trim();
     const category_id = $('#im-cat').value;
-    const sort_order = parseInt($('#im-order').value || '0', 10);
     const svg = $('#im-svg').value.trim();
     if (!name || !category_id || !svg) {
       toast('请填齐名称、分类和 SVG 代码', 'error');
       return;
     }
+    // 排序自动生成：新增或更换分类 => 排到该分类末尾；同分类编辑 => 保持原序号
+    const old = editingIconId ? icons.find((x) => x.id === editingIconId) : null;
+    const sort_order = (old && old.category_id === category_id)
+      ? (old.sort_order || 0)
+      : icons
+          .filter((i) => i.category_id === category_id)
+          .reduce((m, i) => Math.max(m, i.sort_order || 0), -1) + 1;
     try {
       if (editingIconId) {
         await LOOMICON_DB.adminAction(adminPwd, 'update_icon', { id: editingIconId, name, category_id, sort_order, svg });

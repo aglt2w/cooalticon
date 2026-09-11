@@ -91,8 +91,13 @@
       <h3 class="auth-title">内部资源验证</h3>
       <button class="auth-close-btn">×</button>
     </div>
+    <!-- 隐藏用户名占位：让 Chrome 把「解锁密码」存成独立的 unlock 账户条目，
+         避免和后台管理员密码在同一个站点下互相覆盖（不能 display:none，否则浏览器会忽略） -->
+    <input type="text" id="unlock-username" value="unlock"
+           autocomplete="username" readonly tabindex="-1" aria-hidden="true"
+           style="position:absolute;width:1px;height:1px;opacity:0;border:0;padding:0;pointer-events:none;">
     <!-- 密码输入框（保留原有类名） -->
-    <input type="password" class="auth-input" placeholder="请输入内部验证密码" autocomplete="off">
+    <input type="password" class="auth-input" placeholder="请输入内部验证密码" autocomplete="current-password">
     <!-- 错误提示（保留原有类名） -->
     <p class="auth-error"></p>
     <!-- 7天内无需重复验证：改造为你指定的SVG复选框（核心修改） -->

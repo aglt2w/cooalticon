@@ -100,6 +100,7 @@ declare
   stored_hash text;
   new_id      uuid;
   result      jsonb;
+  item        jsonb;
 begin
   select value into stored_hash
     from public.app_settings
@@ -162,6 +163,17 @@ begin
 
   elsif action = 'delete_icon' then
     delete from public.icons where id = (payload->>'id')::uuid;
+    result := jsonb_build_object('ok', true);
+
+  elsif action = 'reorder_icons' then
+    -- 批量排序：payload.items = [{ id, category_id, sort_order }, ...]
+    -- 后台拖拽排序后一次性提交，序号由前端自动生成（组内 0..n-1）
+    for item in select * from jsonb_array_elements(payload->'items') loop
+      update public.icons
+         set category_id = (item->>'category_id')::uuid,
+             sort_order  = coalesce((item->>'sort_order')::int, sort_order)
+       where id = (item->>'id')::uuid;
+    end loop;
     result := jsonb_build_object('ok', true);
 
   elsif action = 'change_password' then
