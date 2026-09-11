@@ -12,6 +12,7 @@
 
 - **前台**（`index.html`）：图标浏览、搜索、分类筛选、放大预览、下载 / 复制 SVG
 - **后台**（`admin.html`）：管理员登录后可对图标和分类进行增删改查、批量上传 SVG、数据导入、修改密码
+  - 图标管理按分类分组展示，支持鼠标拖拽排序（组内 / 跨分类），序号自动生成，无需手填
 
 数据存储在 [Supabase](https://supabase.com/)（免费额度即可），图标内容（SVG 源码）直接存在数据库里，不再依赖本地图标文件。
 
@@ -56,6 +57,27 @@ python3 -m http.server 8765
 - 前端只持有 anon key（可公开），所有写操作通过 `admin_action` SECURITY DEFINER RPC，服务端校验密码哈希（SHA-256 + pgcrypto）
 - RLS 开启后，anon 角色对表只有只读权限
 - 密码不以明文存储
+- 前台解锁框与后台登录框各带一个固定用户名字段，使浏览器密码管理器把两套密码存成两条独立凭据，互不覆盖
+
+## 🆕 更新记录
+
+### 2026-09-11
+
+**后台图标管理**
+- 图标列表改为**按分类分组**展示，每组带标题栏（分类名 + 图标数量）
+- 卡片支持**拖拽排序**：可组内调整顺序，也可拖到其他分组直接换分类；拖拽时有插入位置指示线
+- **序号自动生成**：卡片左上角显示组内序号，拖动后自动重排，编辑弹窗不再需要手动填排序值
+- 搜索关键字激活时暂停拖拽，避免对筛选子集误排序
+- 「全部图标」识别为伪分类：不再占用分组栏，并从筛选 / 上传 / 编辑三处下拉框中移除
+
+**样式与体验**
+- 下拉框改用 `appearance: none` + 自绘 SVG 箭头，修复原生箭头贴边问题，并统一 hover 样式
+- 修复登录卡片提示文字间距失效（选择器特异性被 `.admin-login-card p` 覆盖）
+- 「+ 新增图标」按钮加大左右内边距
+
+### 旧库升级提示
+
+上面的「拖拽排序」依赖新的 `reorder_icons` 接口，旧库需在 Supabase SQL Editor 运行一次 [`supabase/migration-reorder-icons.sql`](supabase/migration-reorder-icons.sql)（只替换函数定义，不动数据与密码）。新库直接跑 `init.sql` 即可。
 
 ## 📁 目录结构
 
@@ -72,7 +94,8 @@ python3 -m http.server 8765
 │   └── supabase.js        # Supabase 数据访问层
 ├── supabase/
 │   ├── init.sql           # 数据库初始化脚本
-│   └── fix-pgcrypto.sql   # search_path 修复（若 init.sql 已含则无需单独运行）
+│   ├── fix-pgcrypto.sql   # search_path 修复（若 init.sql 已含则无需单独运行）
+│   └── migration-reorder-icons.sql  # 旧库升级：新增图标拖拽排序接口
 └── assets/             # 站点静态资源（logo / favicon）
 ```
 
