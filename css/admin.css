@@ -670,6 +670,12 @@ body.admin-page {
 .admin-upload-hint { margin: 0; font-size: 14px; color: #1a2b48; font-weight: 500; }
 .admin-upload-hint-sub { margin: 6px 0 0; font-size: 12px; color: #94a3b8; }
 
+/* 弹窗内的单文件拖拽区（紧凑版，尺寸小于批量上传的大拖拽区） */
+.admin-drop-sm { padding: 22px 14px; border-radius: 12px; }
+/* 选中文件后的状态 */
+.admin-upload-hint.is-file { word-break: break-all; }
+.admin-upload-hint.is-file::before { content: "✓ "; color: #22a06b; font-weight: 700; }
+
 .admin-upload-list {
   margin-top: 16px;
   display: grid;

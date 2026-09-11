@@ -357,22 +357,40 @@
 
   $('#btn-add-icon').addEventListener('click', () => openIconModal(null));
 
+  let iconModalSvg = '';  // 弹窗当前持有的 SVG 源码（来自选择的文件，或编辑中的原图标）
+
   function openIconModal(id) {
     editingIconId = id;
     const icon = id ? icons.find((x) => x.id === id) : null;
     $('#icon-modal-title').textContent = icon ? '编辑图标' : '新增图标';
     $('#im-name').value = icon ? icon.name : '';
-    $('#im-svg').value = icon ? icon.svg : '';
+    $('#im-file').value = '';
+    iconModalSvg = icon ? (icon.svg || '') : '';
+    setIconDropHint(icon ? '已载入当前图标' : '',
+      icon ? '拖入或点击选择 .svg 文件可替换' : '');
     renderFilters();
     if (icon) $('#im-cat').value = icon.category_id;
     updateIconPreview();
     $('#icon-modal').hidden = false;
   }
 
-  $('#im-svg').addEventListener('input', updateIconPreview);
+  // 拖拽区文案：无文件时显示默认提示，选中文件后显示文件名
+  function setIconDropHint(fileName, subText) {
+    const hint = $('#im-drop-hint');
+    const sub = $('#im-drop-sub');
+    if (fileName) {
+      hint.textContent = fileName;
+      hint.classList.add('is-file');
+      sub.textContent = subText || '已载入，可再次拖入或点击替换';
+    } else {
+      hint.textContent = '点击或拖拽 .svg 文件到此处';
+      hint.classList.remove('is-file');
+      sub.textContent = subText || '文件名会自动填入上方名称';
+    }
+  }
 
   function updateIconPreview() {
-    const svg = $('#im-svg').value.trim();
+    const svg = iconModalSvg.trim();
     const box = $('#im-preview');
     if (!svg) { box.innerHTML = ''; return; }
     box.innerHTML = svg;
@@ -386,12 +404,50 @@
     }
   }
 
+  function bindIconDrop() {
+    const drop = $('#im-drop');
+    const fileInput = $('#im-file');
+    if (!drop || !fileInput) return;
+    drop.addEventListener('click', () => fileInput.click());
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('dragover'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+    drop.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      drop.classList.remove('dragover');
+      await handleIconFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', async (e) => {
+      await handleIconFile(e.target.files[0]);
+      e.target.value = ''; // 允许连续选择同一个文件
+    });
+  }
+
+  async function handleIconFile(file) {
+    if (!file) return;
+    if (!/\.svg$/i.test(file.name)) { toast('请选择 .svg 格式的文件', 'error'); return; }
+    const text = (await file.text()).trim();
+    if (!/<svg[\s>]/i.test(text)) { toast('文件内容不是有效的 SVG', 'error'); return; }
+    iconModalSvg = text;
+    // 新增时用文件名自动补名称（名称已手填则不动）
+    if (!editingIconId && !$('#im-name').value.trim()) {
+      $('#im-name').value = file.name.replace(/\.svg$/i, '');
+    }
+    setIconDropHint(file.name);
+    updateIconPreview();
+  }
+
+  bindIconDrop();
+
   $('#im-save').addEventListener('click', async () => {
     const name = $('#im-name').value.trim();
     const category_id = $('#im-cat').value;
-    const svg = $('#im-svg').value.trim();
-    if (!name || !category_id || !svg) {
-      toast('请填齐名称、分类和 SVG 代码', 'error');
+    const svg = iconModalSvg.trim();
+    if (!name || !category_id) {
+      toast('请填齐名称和分类', 'error');
+      return;
+    }
+    if (!svg) {
+      toast('请先选择 SVG 文件', 'error');
       return;
     }
     // 排序自动生成：新增或更换分类 => 排到该分类末尾；同分类编辑 => 保持原序号

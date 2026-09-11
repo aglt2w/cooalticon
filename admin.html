@@ -231,8 +231,12 @@
       <select class="admin-select" id="im-cat"></select>
     </div>
     <div class="admin-form-row">
-      <label>SVG 代码</label>
-      <textarea class="admin-input admin-textarea" id="im-svg" rows="6"></textarea>
+      <label>SVG 文件</label>
+      <div class="admin-upload-drop admin-drop-sm" id="im-drop">
+        <input type="file" accept=".svg,image/svg+xml" id="im-file" hidden>
+        <p class="admin-upload-hint" id="im-drop-hint">点击或拖拽 .svg 文件到此处</p>
+        <p class="admin-upload-hint-sub" id="im-drop-sub">文件名会自动填入上方名称</p>
+      </div>
     </div>
     <div class="admin-form-row">
       <label>预览</label>
